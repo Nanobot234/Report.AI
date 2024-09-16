@@ -15,35 +15,87 @@ class InitialProblemDescriptionViewController: UIViewController {
     
     @IBOutlet weak var problemStatementLabel: UILabel!
     
-    @IBOutlet weak var analyzeButton: UIButton!
+    @IBOutlet weak var newAnalysisInstructionLabel: UILabel!
+ 
+    @IBOutlet weak var analyzeButton: UIButton! {
+        didSet {
+            if !analyzeButton.isEnabled {
+                showAnalyzeHelpText()
+            }
+        }
+    }
     
     @IBOutlet weak var continueButton: UIButton!
+    
+    /// the name of the problem presented in the image. Like "overflowing trash" or "pothole"
+     var problemName : String = "" //ASk AI about whether to cahnge thsi
+    var problemDescription: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        //disable the button
-        analyzeButton.isEnabled = false //disable the upload button initialy, may want to gray it out too
+        
+        analyzeButton.isEnabled = false
         continueButton.isHidden = true
+        newAnalysisInstructionLabel.isHidden = true
+        
+        
+        
+        addBorderToImageView()
+        self.hideKeyboardWhenTappedAround()
     }
     
     /// Allow the user to choose or take a photo from their camera
     @IBAction func photoSelectionOrCapture(_ sender: UIButton) {
         presentImagePicker()
     
+        
     }
     
     @IBAction func AnalyzeImage(_ sender: Any) {
         if let addedImage = InitialComplaintImageView.image {
             Task {
-               await GeminiManager.shared.generateProblemAndDescriptionFromImage(input: addedImage)
+              let result = await GeminiManager.shared.generateProblemAndDescriptionFromImage(input: addedImage)
+                problemName = result.0
+                problemDescription = result.1
+                
+                problemStatementLabel.text = "Problem: " + problemName// continue
+                
+                continueButton.isHidden = false
+                analyzeButton.isEnabled = false
                 }
+            
+            
             }
         }
     
+    //more here
+    func addBorderToImageView() {
+        InitialComplaintImageView.layer.borderColor = UIColor.black.cgColor
+        InitialComplaintImageView.layer.borderWidth = 5.0
+    }
+    
+    func showAnalyzeHelpText() {
+        newAnalysisInstructionLabel.isHidden = false
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToReportDetail" {
+            
+            //
+            if let destinationVC = segue.destination as? ReportDetailViewController {
+                //pass the name and description to the second view controller
+                destinationVC.problemName = problemName
+                destinationVC.problemDescription = problemDescription
+                destinationVC.initialImage = InitialComplaintImageView.image
+            }
+        }
+    }
     
 }
+
+
 
 extension InitialProblemDescriptionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
@@ -65,6 +117,7 @@ extension InitialProblemDescriptionViewController: UIImagePickerControllerDelega
             // imageView.image = selectedImage
             InitialComplaintImageView.image = selectedImage
             analyzeButton.isEnabled = true // enable the button again
+            
             
         }
         

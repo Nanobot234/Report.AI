@@ -33,7 +33,7 @@ class GeminiManager {
     }
      
 
-    func generateProblemAndDescriptionFromImage(input: UIImage) async {
+    func generateProblemAndDescriptionFromImage(input: UIImage) async -> (String, String) {
        //the complaint description, statement name,
         //this can be used here!!, and also may need to ask to make it sound more realistic!
         
@@ -41,6 +41,7 @@ class GeminiManager {
         do {
               let response = try await geminiModel.generateContent(complaintPrompt, input)
               text = response.text!
+            print(text)
         } catch {
             print(error.localizedDescription)
         }
@@ -48,15 +49,38 @@ class GeminiManager {
         //print(text) //want to see what will get
         
         //create and return the tupel here!!
+        let problemAndDescription = createTupleFromResponseString(with: text)
         
+        return problemAndDescription
     }
     
     //likkely have function that will serialize the data into an object to be used!
     
+        
+    //fix this here
+    func createTupleFromResponseString(with input: String) -> (String, String) {
+        let cleanedString = input.trimmingCharacters(in: CharacterSet(charactersIn: "()"))
+        let components = cleanedString.split(separator: ",",maxSplits: 1, omittingEmptySubsequences: true)
 
-    func createTupleFromResponseString() {
+        // Ensure the components are properly extracted and trimmed
+        print(components.count)
+        if components.count == 2 {
+            let problemName = components[0].trimmingCharacters(in: .whitespacesAndNewlines)
+            let problemDescription = components[1].trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            let parsedTuple: (String, String) = (problemName, problemDescription)
+            print("Parsed Tuple from Gemini response: \(parsedTuple)")
+            return parsedTuple
+        } else {
+            print("Failed to parse the string into a tuple")
+        }
+        
+        return ("","")
         
     }
     
+ 
+
+    // Remove the parentheses and split the string by the comma
     
 }
