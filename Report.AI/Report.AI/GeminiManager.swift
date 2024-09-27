@@ -75,6 +75,8 @@ class GeminiManager {
             print("Failed to parse the string into a tuple")
         }
         
+        //save this for the user
+        
         return ("","")
         
     }
