@@ -47,6 +47,8 @@ struct PhotoPicker: UIViewControllerRepresentable {
                         }
                     }
                 }
+                
+                
             }
         }
 }
@@ -81,6 +83,8 @@ struct CameraPicker: UIViewControllerRepresentable {
               if let image = info[.originalImage] as? UIImage {
                   parent.images.append(image)
               }
+              
+              
               picker.dismiss(animated: true) // Close camera after capturing an image
           }
 
