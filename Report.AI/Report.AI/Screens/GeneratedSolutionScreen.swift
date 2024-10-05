@@ -8,7 +8,7 @@
 import SwiftUI
 import Foundation
 
-struct GeneratedSolutionScreen: View {
+struct GeneratedSolutionView: View {
     
     
     @State private var solutionText: String = ""
@@ -57,5 +57,5 @@ struct GeneratedSolutionScreen: View {
 }
 
 #Preview {
-    GeneratedSolutionScreen()
+    GeneratedSolutionView()
 }

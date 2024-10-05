@@ -82,11 +82,11 @@ class InitialProblemDescriptionViewController: UIViewController {
         }
     }
     
-    @IBAction func showReportDetailSwiftUIView(_ sender: Any) {
-        guard let image = InitialComplaintImageView.image else { return }
-        let hostingVC = UIHostingController(rootView: InitalScreenView(initialImage: image, problemDescription: problemDescription))
-        navigationController?.pushViewController(hostingVC, animated: true)
-    }
+//    @IBAction func showReportDetailSwiftUIView(_ sender: Any) {
+//        guard let image = InitialComplaintImageView.image else { return }
+//        let hostingVC = UIHostingController(rootView: InitalScreenView(initialImage: image, problemDescription: problemDescription, problemName: problemName))
+//        navigationController?.pushViewController(hostingVC, animated: true)
+//    }
     
     // MARK: - Helper Functions
     func addBorderToImageView() {

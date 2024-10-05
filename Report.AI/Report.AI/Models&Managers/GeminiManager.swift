@@ -17,7 +17,7 @@ class GeminiManager {
     private let geminiModel = GenerativeModel(name: "gemini-1.5-flash", apiKey: APIKey.default)
     let basicPrompt = "If there is a problem that needs to be resolved in this image, Please describe the problem or issue in this image and do so in 4 words or less. If not, just state no problem"
     let complaintPrompt = "Please return a tuple from an analysis of the problem in this image. The first element of the tuple should be the problem stated in 4 words or less. But the second element should be a longer more description of the problem analyzed in the image, but it should be a paragraph or less. keep in mind that the analysis will be submitted as a complaint to authortiies so keep the language direct and informative."
-    let additionalImagesPrompt = "The problem as determined from the first image is \(UserDefaults.standard.getAnalyzedProblemName()) use the additonal images provided to provide a new more accurate description of the problem"
+    let additionalImagesPrompt = "The problem as determined from the first image is \(UserDefaults.standard.getAnalyzedProblemName()) use the additonal images provided to provide a new more accurate description of the problem. Make sure to combine details from both the original problem and new insights you gain from the new images to make a complete, detailed but concise problem description"
     let solutionPrompt = "Come up with a solution in about 3 steps that would address the following problem/n"
     
     
@@ -64,14 +64,23 @@ class GeminiManager {
         
         var updatedResponse = ""
         do {
-            
-            //
-            let response = try await geminiModel.generateContent(additionalImagesPrompt,input[0], input[1], input[2]) //try all three images in them if it exists
+            //depending on input size here
+            if(input.count == 3) {
+                updatedResponse = try await geminiModel.generateContent(additionalImagesPrompt,input[0], input[1], input[2]).text!
+                print(updatedResponse)
+            } else if(input.count == 2) {
+                updatedResponse = try await geminiModel.generateContent(additionalImagesPrompt,input[0], input[1]).text!
+                print(updatedResponse)
+            } else{
+                updatedResponse = try await geminiModel.generateContent(additionalImagesPrompt,input[0]).text!
+                print(updatedResponse)
+            }
         } catch {
-            
+            print(error.localizedDescription)
+            updatedResponse = "An error occured please try again"
         }
         
-        return ""
+        return updatedResponse
     }
     
     //likkely have function that will serialize the data into an object to be used!
