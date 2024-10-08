@@ -13,7 +13,10 @@ import PhotosUI
 struct PhotoPicker: UIViewControllerRepresentable {
     @Binding var images: [UIImage]
     @Binding var description: String
-    let updateArray: () -> ()
+
+    //@Binding var report: Report
+    let updateReport: () -> ()
+
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration()
@@ -62,6 +65,10 @@ struct PhotoPicker: UIViewControllerRepresentable {
             
                 self.parent.description = await GeminiManager.shared.updateProblemDescriptionWithImages(input: self.parent.images).replacingOccurrences(of: "\'", with: "\'") //get rid of slashes
               
+
+              
+                self.parent.updateReport() //updates the report with this new description
+
             }
         }
 
