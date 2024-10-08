@@ -11,13 +11,15 @@ import Foundation
 struct GeneratedSolutionView: View {
     
     
-    @State private var solutionText: String = ""
+    @State var solutionText: String
+    var problemName: String
+    var currentReport: Report //the report that is currently being made.
     
     var body: some View {
         VStack {
             
             Spacer()
-            Text("Possible solution to  \(solutionText)")
+            Text("Possible solution to  \(problemName)")
             
             
             //further down after the edited text  box here
@@ -34,7 +36,7 @@ struct GeneratedSolutionView: View {
             Spacer()
             VStack {
                 confirmationButton(title: "Yes") {
-                    
+                    //add the solution to the report here, and then navigae to the last screen.
                 }
                 .padding(.bottom,10)
                 
@@ -45,7 +47,8 @@ struct GeneratedSolutionView: View {
             .padding(.bottom,30)
         }
             .onAppear {
-                solutionText = UserDefaults.standard.string(forKey: "problemDescription") ?? ""
+                
+               
             }
         
         
@@ -57,5 +60,5 @@ struct GeneratedSolutionView: View {
 }
 
 #Preview {
-    GeneratedSolutionView()
+    GeneratedSolutionView(solutionText: "Good", problemName: "Nah", currentReport: Report())
 }

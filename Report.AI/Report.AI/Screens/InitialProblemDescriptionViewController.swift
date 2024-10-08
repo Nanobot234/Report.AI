@@ -42,6 +42,8 @@ class InitialProblemDescriptionViewController: UIViewController {
     var problemName: String = ""
     var problemDescription: String = ""
     
+    @StateObject var reportList = Reports()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,11 +84,12 @@ class InitialProblemDescriptionViewController: UIViewController {
         }
     }
     
-//    @IBAction func showReportDetailSwiftUIView(_ sender: Any) {
-//        guard let image = InitialComplaintImageView.image else { return }
-//        let hostingVC = UIHostingController(rootView: InitalScreenView(initialImage: image, problemDescription: problemDescription, problemName: problemName))
-//        navigationController?.pushViewController(hostingVC, animated: true)
-//    }
+    @IBAction func showReportDetailSwiftUIView(_ sender: Any) {
+        guard let image = InitialComplaintImageView.image else { return }
+        let hostingVC = UIHostingController(rootView: ReportDetailView(initialImage: image, problemDescription: problemDescription, problemName: problemName)
+            .environmentObject(reportList))
+        navigationController?.pushViewController(hostingVC, animated: true)
+    }
     
     // MARK: - Helper Functions
     func addBorderToImageView() {

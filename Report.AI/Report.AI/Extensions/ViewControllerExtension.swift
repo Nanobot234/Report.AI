@@ -26,5 +26,21 @@ extension UserDefaults {
         
         return UserDefaults.standard.string(forKey: "problemName") ?? ""//could be bettter but
     }
+    
+    //
+    /// saves a new user
+    /// - Parameter newUser: the new `User` object to save
+    func saveUser(with user: User) {
+        if let encoded = try? JSONEncoder().encode(user) {
+            UserDefaults.standard.set(encoded, forKey: "currentUser")
+        }
+    }
+    
+    func editUserDetails() {
+        //get user details and edit
+        if let user = UserDefaults.standard.string(forKey: "currentUser") {
+            //TODO: Edit details here
+        }
+    }
 }
 

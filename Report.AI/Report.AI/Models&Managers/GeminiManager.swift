@@ -18,7 +18,7 @@ class GeminiManager {
     let basicPrompt = "If there is a problem that needs to be resolved in this image, Please describe the problem or issue in this image and do so in 4 words or less. If not, just state no problem"
     let complaintPrompt = "Please return a tuple from an analysis of the problem in this image. The first element of the tuple should be the problem stated in 4 words or less. But the second element should be a longer more description of the problem analyzed in the image, but it should be a paragraph or less. keep in mind that the analysis will be submitted as a complaint to authortiies so keep the language direct and informative."
     let additionalImagesPrompt = "The problem as determined from the first image is \(UserDefaults.standard.getAnalyzedProblemName()) use the additonal images provided to provide a new more accurate description of the problem. Make sure to combine details from both the original problem and new insights you gain from the new images to make a complete, detailed but concise problem description"
-    let solutionPrompt = "Come up with a solution in about 3 steps that would address the following problem/n"
+    let solutionPrompt = "Come up with a realistic solution in a maximum of 3 steps in a numbered list that would address the following problem. Also craft the solutions as if your telling a person what needs to be done and not a general statement\n\n"
     
     
     //
@@ -109,6 +109,24 @@ class GeminiManager {
         
         return ("","")
         
+    }
+    
+    /// Asks Gemini to generate possible solutions for the problem described in the image.
+    /// - Parameter problemDescription: A brief description of the problem
+    /// - Returns: The solution generated
+    func generateSolutionFromProblem(problemDescription: String) async -> String {
+
+        let inputText = solutionPrompt + problemDescription
+        do {
+              let response = try await geminiModel.generateContent(inputText)
+            let responseText = response.text!
+            print(responseText)
+            return responseText
+        } catch {
+            print(error.localizedDescription)  
+        }
+         
+        return ""
     }
     
     func saveProblemAndDescription(data: (String, String)) {
