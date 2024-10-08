@@ -28,36 +28,36 @@ struct InitialScreenView: View {
     var initialImage: UIImage
     @State var problemDescription: String
     @State private var imageToDeleteIndex: Int? = nil
-        
-        var body: some View {
-            ScrollView {
-                VStack(spacing: 24) {
-                    // Image Gallery Section
-                    VStack(alignment: .leading, spacing: 16) {
-                        SectionTitle("Photos")
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.accentColor, lineWidth: 1)
-                                .background(Color(.systemBackground).cornerRadius(20))
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                LazyHStack(spacing: 12) {
-                                    ForEach(images.indices, id: \.self) { index in
-                                        ImageThumbnail(
-                                            image: images[index],
-                                            canDelete: index > 0,
-                                            onDeleteRequest: {
-                                                imageToDeleteIndex = index
-                                            }
-                                        )
-                                    }
+    
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 24) {
+                // Image Gallery Section
+                VStack(alignment: .leading, spacing: 16) {
+                    SectionTitle("Photos")
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color.accentColor, lineWidth: 1)
+                            .background(Color(.systemBackground).cornerRadius(20))
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack(spacing: 12) {
+                                ForEach(images.indices, id: \.self) { index in
+                                    ImageThumbnail(
+                                        image: images[index],
+                                        canDelete: index > 0,
+                                        onDeleteRequest: {
+                                            imageToDeleteIndex = index
+                                        }
+                                    )
                                 }
-                                .padding(.horizontal)
                             }
-                            .frame(height: 260)
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
-                        .padding(.top, 8)
+                        .frame(height: 260)
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 8)
                     
                     // Add Photo Buttons
                     HStack(spacing: 12) {
@@ -78,30 +78,30 @@ struct InitialScreenView: View {
                 }
                 
                 // Problem Description
-                    VStack(alignment: .leading) {
-                                        SectionTitle("Problem Description")
-                                        Picker("Description Input", selection: $isManualDescription) {
-                                            Text("Automatic").tag(false)
-                                            Text("Manual").tag(true)
-                                        }
-                                        .pickerStyle(SegmentedPickerStyle())
-                                        .padding(.bottom, 8)
-                                        
-                                        if isManualDescription {
-                                            ContentCard {
-                                                TextField("Describe the problem...", text: $manualProblemDescription)
-                                                    .cornerRadius(10)
-                                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                                    .padding()
-                                            }
-                                        } else {
-                                            ContentCard {
-                                                Text(problemDescription)
-                                                    .foregroundColor(.secondary)
-                                                    .fixedSize(horizontal: false, vertical: true)
-                                            }
-                                        }
-                                    }
+                VStack(alignment: .leading) {
+                    SectionTitle("Problem Description")
+                    ContentCard {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Picker("Description Input", selection: $isManualDescription) {
+                                Text("Automatic").tag(false)
+                                Text("Manual").tag(true)
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+                            .padding(.bottom, 8)
+                            
+                            if isManualDescription {
+                                TextField("Describe the problem...", text: $manualProblemDescription)
+                                    .cornerRadius(10)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                            } else {
+                                Text(problemDescription)
+                                    .foregroundColor(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                        }
+                    }
+                }
+                               .animation(.easeInOut, value: isManualDescription)
                 
                 // Location
                 VStack(alignment: .leading) {
@@ -118,6 +118,7 @@ struct InitialScreenView: View {
                             if isManualLocation {
                                 TextField("Enter address manually", text: $manualAddress)
                                     .cornerRadius(10)
+                                
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                             } else {
                                 HStack(spacing: 12) {
@@ -126,6 +127,7 @@ struct InitialScreenView: View {
                                         .font(.title2)
                                     Text(locationManager.address)
                                         .foregroundColor(.secondary)
+                                    
                                 }
                                 
                                 Button(action: {
@@ -142,7 +144,7 @@ struct InitialScreenView: View {
                             }
                         }
                     }
-                }
+                } .animation(.easeInOut, value: isManualLocation)
                 
                 // Date & Time
                 VStack(alignment: .leading) {
@@ -186,24 +188,24 @@ struct InitialScreenView: View {
             .padding()
         }
         .alert("Remove Image?", isPresented: Binding(
-                    get: { imageToDeleteIndex != nil },
-                    set: { if !$0 { imageToDeleteIndex = nil } }
-                )) {
-                    Button("Cancel", role: .cancel) {
-                        imageToDeleteIndex = nil
+            get: { imageToDeleteIndex != nil },
+            set: { if !$0 { imageToDeleteIndex = nil } }
+        )) {
+            Button("Cancel", role: .cancel) {
+                imageToDeleteIndex = nil
+            }
+            Button("Remove", role: .destructive) {
+                if let index = imageToDeleteIndex, images.indices.contains(index) {
+                    withAnimation {
+                        images.remove(at: index)
                     }
-                    Button("Remove", role: .destructive) {
-                        if let index = imageToDeleteIndex, images.indices.contains(index) {
-                            withAnimation {
-                                images.remove(at: index)
-                            }
-                        }
-                        imageToDeleteIndex = nil
-                    }
-                } message: {
-                    Text("Removing this image may affect the final result of your report. Are you sure you want to continue?")
                 }
-                .navigationTitle("\(problemName) Report Details")
+                imageToDeleteIndex = nil
+            }
+        } message: {
+            Text("Removing this image may affect the final result of your report. Are you sure you want to continue?")
+        }
+        .navigationTitle("\(problemName) Report Details")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             addInitialImage()
@@ -223,18 +225,18 @@ struct InitialScreenView: View {
     }
     
     func adjustImageArray() {
-            if images.count == 1 {
-                images.append(UIImage())
-                images.append(UIImage())
-            }
-            if images.count == 2 {
-                images.append(UIImage())
-            }
+        if images.count == 1 {
+            images.append(UIImage())
+            images.append(UIImage())
         }
+        if images.count == 2 {
+            images.append(UIImage())
+        }
+    }
     func createReport() {
-            _ = User(name: "Nana Bonsu", emailAddress: "Nbonsu2000@gmail.com")
-            // Implement report creation logic
-        }
+        _ = User(name: "Nana Bonsu", emailAddress: "Nbonsu2000@gmail.com")
+        // Implement report creation logic
+    }
 }
 
 
@@ -402,3 +404,5 @@ struct ImageThumbnail_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
+
+
