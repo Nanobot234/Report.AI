@@ -7,11 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F2880A992C7E6C9B00818ADD /* GeminiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2880A982C7E6C9B00818ADD /* GeminiManager.swift */; };
+		805D952A2CB440A700F735C2 /* ReportDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95282CB440A700F735C2 /* ReportDetailView.swift */; };
+		805D952B2CB440A700F735C2 /* InitialProblemDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95272CB440A700F735C2 /* InitialProblemDescriptionViewController.swift */; };
+		805D952C2CB440A700F735C2 /* GeneratedSolutionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95262CB440A700F735C2 /* GeneratedSolutionScreen.swift */; };
+		805D95312CB440B600F735C2 /* CustomUIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D952E2CB440B600F735C2 /* CustomUIElements.swift */; };
+		805D95322CB440B600F735C2 /* CameraSelectionStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D952D2CB440B600F735C2 /* CameraSelectionStructs.swift */; };
+		805D95332CB440B600F735C2 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D952F2CB440B600F735C2 /* ViewControllerExtension.swift */; };
+		805D95372CB440F800F735C2 /* GeminiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95342CB440F800F735C2 /* GeminiManager.swift */; };
+		805D95382CB440F800F735C2 /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95352CB440F800F735C2 /* ReportModel.swift */; };
+		805D953A2CB4412000F735C2 /* APIkeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95392CB4412000F735C2 /* APIkeys.swift */; };
+		805D953C2CB4413000F735C2 /* ReportDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D953B2CB4413000F735C2 /* ReportDetailViewController.swift */; };
+		80C407C42CB4F9F300E9BCA1 /* WelcomeViewAddDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C407C32CB4F9F300E9BCA1 /* WelcomeViewAddDetails.swift */; };
+		80C407C62CB4FA0F00E9BCA1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C407C52CB4FA0F00E9BCA1 /* ContentView.swift */; };
+		80C407C92CB4FA4200E9BCA1 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C407C82CB4FA4200E9BCA1 /* OnboardingView.swift */; };
+		80C407CC2CB4FA6900E9BCA1 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C407CB2CB4FA6900E9BCA1 /* LocationManager.swift */; };
 		F2880A9B2C7E6E4100818ADD /* GeminiAI-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2880A9A2C7E6E4100818ADD /* GeminiAI-Info.plist */; };
 		F2D507172C6AA0630058A95E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D507162C6AA0630058A95E /* AppDelegate.swift */; };
 		F2D507192C6AA0630058A95E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D507182C6AA0630058A95E /* SceneDelegate.swift */; };
-		F2D5071B2C6AA0630058A95E /* InitialProblemDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D5071A2C6AA0630058A95E /* InitialProblemDescriptionViewController.swift */; };
 		F2D5071E2C6AA0630058A95E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2D5071C2C6AA0630058A95E /* Main.storyboard */; };
 		F2D507202C6AA06A0058A95E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2D5071F2C6AA06A0058A95E /* Assets.xcassets */; };
 		F2D507232C6AA06A0058A95E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2D507212C6AA06A0058A95E /* LaunchScreen.storyboard */; };
@@ -19,7 +31,6 @@
 		F2D507382C6AA06B0058A95E /* Report_AIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D507372C6AA06B0058A95E /* Report_AIUITests.swift */; };
 		F2D5073A2C6AA06B0058A95E /* Report_AIUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D507392C6AA06B0058A95E /* Report_AIUITestsLaunchTests.swift */; };
 		F2D507482C6AA9350058A95E /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = F2D507472C6AA9350058A95E /* GoogleGenerativeAI */; };
-		F2FE3C112C76C86000962663 /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FE3C102C76C86000962663 /* ReportModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,12 +51,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F2880A982C7E6C9B00818ADD /* GeminiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiManager.swift; sourceTree = "<group>"; };
+		805D95262CB440A700F735C2 /* GeneratedSolutionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedSolutionScreen.swift; sourceTree = "<group>"; };
+		805D95272CB440A700F735C2 /* InitialProblemDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialProblemDescriptionViewController.swift; sourceTree = "<group>"; };
+		805D95282CB440A700F735C2 /* ReportDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDetailView.swift; sourceTree = "<group>"; };
+		805D952D2CB440B600F735C2 /* CameraSelectionStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSelectionStructs.swift; sourceTree = "<group>"; };
+		805D952E2CB440B600F735C2 /* CustomUIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIElements.swift; sourceTree = "<group>"; };
+		805D952F2CB440B600F735C2 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		805D95342CB440F800F735C2 /* GeminiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiManager.swift; sourceTree = "<group>"; };
+		805D95352CB440F800F735C2 /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
+		805D95392CB4412000F735C2 /* APIkeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIkeys.swift; sourceTree = "<group>"; };
+		805D953B2CB4413000F735C2 /* ReportDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDetailViewController.swift; sourceTree = "<group>"; };
+		80C407C32CB4F9F300E9BCA1 /* WelcomeViewAddDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewAddDetails.swift; sourceTree = "<group>"; };
+		80C407C52CB4FA0F00E9BCA1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		80C407C82CB4FA4200E9BCA1 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		80C407CB2CB4FA6900E9BCA1 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F2880A9A2C7E6E4100818ADD /* GeminiAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GeminiAI-Info.plist"; sourceTree = "<group>"; };
 		F2D507132C6AA0630058A95E /* Report.AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Report.AI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2D507162C6AA0630058A95E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2D507182C6AA0630058A95E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F2D5071A2C6AA0630058A95E /* InitialProblemDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialProblemDescriptionViewController.swift; sourceTree = "<group>"; };
 		F2D5071D2C6AA0630058A95E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F2D5071F2C6AA06A0058A95E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F2D507222C6AA06A0058A95E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,7 +78,6 @@
 		F2D507332C6AA06B0058A95E /* Report.AIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Report.AIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2D507372C6AA06B0058A95E /* Report_AIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report_AIUITests.swift; sourceTree = "<group>"; };
 		F2D507392C6AA06B0058A95E /* Report_AIUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report_AIUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		F2FE3C102C76C86000962663 /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +106,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		805D95292CB440A700F735C2 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				80C407C72CB4FA2A00E9BCA1 /* Onboarding */,
+				805D95262CB440A700F735C2 /* GeneratedSolutionScreen.swift */,
+				805D95272CB440A700F735C2 /* InitialProblemDescriptionViewController.swift */,
+				805D95282CB440A700F735C2 /* ReportDetailView.swift */,
+				80C407C32CB4F9F300E9BCA1 /* WelcomeViewAddDetails.swift */,
+				80C407C52CB4FA0F00E9BCA1 /* ContentView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		805D95302CB440B600F735C2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				805D952D2CB440B600F735C2 /* CameraSelectionStructs.swift */,
+				805D952E2CB440B600F735C2 /* CustomUIElements.swift */,
+				805D952F2CB440B600F735C2 /* ViewControllerExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		805D95362CB440F800F735C2 /* Models&Managers */ = {
+			isa = PBXGroup;
+			children = (
+				805D95342CB440F800F735C2 /* GeminiManager.swift */,
+				805D95352CB440F800F735C2 /* ReportModel.swift */,
+			);
+			path = "Models&Managers";
+			sourceTree = "<group>";
+		};
+		80C407C72CB4FA2A00E9BCA1 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				80C407C82CB4FA4200E9BCA1 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		80C407CA2CB4FA5000E9BCA1 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				80C407CB2CB4FA6900E9BCA1 /* LocationManager.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 		F2D5070A2C6AA0630058A95E = {
 			isa = PBXGroup;
 			children = (
@@ -108,14 +178,17 @@
 			isa = PBXGroup;
 			children = (
 				F2D507162C6AA0630058A95E /* AppDelegate.swift */,
+				805D95392CB4412000F735C2 /* APIkeys.swift */,
 				F2D507182C6AA0630058A95E /* SceneDelegate.swift */,
-				F2D5071A2C6AA0630058A95E /* InitialProblemDescriptionViewController.swift */,
+				805D953B2CB4413000F735C2 /* ReportDetailViewController.swift */,
+				805D95362CB440F800F735C2 /* Models&Managers */,
+				80C407CA2CB4FA5000E9BCA1 /* Location */,
+				805D95292CB440A700F735C2 /* Screens */,
+				805D95302CB440B600F735C2 /* Extensions */,
 				F2D5071C2C6AA0630058A95E /* Main.storyboard */,
 				F2D5071F2C6AA06A0058A95E /* Assets.xcassets */,
 				F2D507212C6AA06A0058A95E /* LaunchScreen.storyboard */,
 				F2D507242C6AA06A0058A95E /* Info.plist */,
-				F2FE3C102C76C86000962663 /* ReportModel.swift */,
-				F2880A982C7E6C9B00818ADD /* GeminiManager.swift */,
 				F2880A9A2C7E6E4100818ADD /* GeminiAI-Info.plist */,
 			);
 			path = Report.AI;
@@ -276,11 +349,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2880A992C7E6C9B00818ADD /* GeminiManager.swift in Sources */,
-				F2D5071B2C6AA0630058A95E /* InitialProblemDescriptionViewController.swift in Sources */,
+				805D95312CB440B600F735C2 /* CustomUIElements.swift in Sources */,
+				805D95322CB440B600F735C2 /* CameraSelectionStructs.swift in Sources */,
+				80C407C62CB4FA0F00E9BCA1 /* ContentView.swift in Sources */,
+				80C407C92CB4FA4200E9BCA1 /* OnboardingView.swift in Sources */,
+				80C407CC2CB4FA6900E9BCA1 /* LocationManager.swift in Sources */,
+				805D95372CB440F800F735C2 /* GeminiManager.swift in Sources */,
+				805D953A2CB4412000F735C2 /* APIkeys.swift in Sources */,
+				805D95382CB440F800F735C2 /* ReportModel.swift in Sources */,
+				805D95332CB440B600F735C2 /* ViewControllerExtension.swift in Sources */,
+				805D953C2CB4413000F735C2 /* ReportDetailViewController.swift in Sources */,
 				F2D507172C6AA0630058A95E /* AppDelegate.swift in Sources */,
 				F2D507192C6AA0630058A95E /* SceneDelegate.swift in Sources */,
-				F2FE3C112C76C86000962663 /* ReportModel.swift in Sources */,
+				80C407C42CB4F9F300E9BCA1 /* WelcomeViewAddDetails.swift in Sources */,
+				805D952A2CB440A700F735C2 /* ReportDetailView.swift in Sources */,
+				805D952B2CB440A700F735C2 /* InitialProblemDescriptionViewController.swift in Sources */,
+				805D952C2CB440A700F735C2 /* GeneratedSolutionScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +549,7 @@
 				DEVELOPMENT_TEAM = 7H476JAQ2Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Report.AI/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We want to access your location";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -493,6 +578,7 @@
 				DEVELOPMENT_TEAM = 7H476JAQ2Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Report.AI/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We want to access your location";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

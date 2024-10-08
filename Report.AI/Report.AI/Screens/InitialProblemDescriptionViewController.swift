@@ -3,21 +3,11 @@
 //  Report.AI
 //
 //  Created by Nana Bonsu on 8/12/24.
-//
-
-import UIKit
-import SwiftUI
-//
-//  ViewController.swift
-//  Report.AI
-//
-//  Created by Nana Bonsu on 8/12/24.
-//
 
 import UIKit
 import SwiftUI
 
-
+#warning("Refactor Class")
 class InitialProblemDescriptionViewController: UIViewController {
     
     // MARK: - Outlets
@@ -44,20 +34,66 @@ class InitialProblemDescriptionViewController: UIViewController {
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupUI()
-        self.hideKeyboardWhenTappedAround()
-    }
+            super.viewDidLoad()
+            setupUI()
+            self.hideKeyboardWhenTappedAround()
+        }
+    
+    override func viewDidLayoutSubviews() {
+           super.viewDidLayoutSubviews()
+           updateImageViewSize()
+           updateButtonLayout()
+       }
+    
+    private func updateImageViewSize() {
+            let desiredHeight = view.bounds.height * 0.35
+            InitialComplaintImageView.frame = CGRect(x: 20,
+                                                     y: view.safeAreaInsets.top + 20,
+                                                     width: view.bounds.width - 40,
+                                                     height: desiredHeight)
+        }
     
     // MARK: - Setup UI
-    func setupUI() {
-        analyzeButton.isEnabled = false
-        continueButton.isHidden = true
-        newAnalysisInstructionLabel.isHidden = true
-        addBorderToImageView()
-    }
+    private func setupUI() {
+            title = "Report a Problem"
+            
+            InitialComplaintImageView.layer.cornerRadius = 14
+            InitialComplaintImageView.layer.borderColor = UIColor.systemGray.cgColor
+            InitialComplaintImageView.layer.borderWidth = 2
+            InitialComplaintImageView.contentMode = .scaleAspectFill
+            InitialComplaintImageView.clipsToBounds = true
+            
+            [PhotoSelectorButton, CameraButton, analyzeButton, continueButton].forEach {
+                $0?.layer.cornerRadius = 12
+                $0?.clipsToBounds = true
+            }
+            
+            analyzeButton.isEnabled = false
+            continueButton.isHidden = true
+            newAnalysisInstructionLabel.isHidden = true
+            updateImageViewSize()
+            updateUIAfterAnalysis()
+           addBorderToImageView()
+        }
     
+    private func updateButtonLayout() {
+            let imageBottom = InitialComplaintImageView.frame.maxY + 20
+            let buttonWidth = view.bounds.width * 0.4
+
+            PhotoSelectorButton.frame = CGRect(x: 20, y: imageBottom, width: buttonWidth, height: 50)
+            CameraButton.frame = CGRect(x: view.bounds.width - 20 - buttonWidth, y: imageBottom, width: buttonWidth, height: 50)
+
+            analyzeButton.frame = CGRect(x: 20, y: PhotoSelectorButton.frame.maxY + 20, width: view.bounds.width - 40, height: 50)
+            continueButton.frame = CGRect(x: 20, y: analyzeButton.frame.maxY + 20, width: view.bounds.width - 40, height: 50)
+
+            problemStatementLabel.frame = CGRect(x: 20, y: continueButton.frame.maxY + 10, width: view.bounds.width - 40, height: 30)
+            newAnalysisInstructionLabel.frame = CGRect(x: 20, y: problemStatementLabel.frame.maxY + 10, width: view.bounds.width - 40, height: 30)
+        }
+        
+    private func setupGestures() {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+            view.addGestureRecognizer(tapGesture)
+        }
     // MARK: - Actions
     @IBAction func photoSelectionOrCapture(_ sender: UIButton) {
         initializeImagePickerController(with: .photoLibrary)
@@ -84,7 +120,7 @@ class InitialProblemDescriptionViewController: UIViewController {
     
     @IBAction func showReportDetailSwiftUIView(_ sender: Any) {
         guard let image = InitialComplaintImageView.image else { return }
-        let hostingVC = UIHostingController(rootView: InitalScreenView(initialImage: image, problemDescription: problemDescription))
+        let hostingVC = UIHostingController(rootView: InitialScreenView(problemName: problemName, initialImage: image, problemDescription: problemDescription))
         navigationController?.pushViewController(hostingVC, animated: true)
     }
     
@@ -143,3 +179,18 @@ extension InitialProblemDescriptionViewController: UIImagePickerControllerDelega
         picker.dismiss(animated: true, completion: nil)
     }
 }
+
+
+struct InitialProblemDescriptionViewControllerWrapper: UIViewControllerRepresentable {
+    
+    func makeUIViewController(context: Context) -> InitialProblemDescriptionViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "InitialProblemDescriptionViewController") as! InitialProblemDescriptionViewController
+        return viewController
+    }
+    
+    func updateUIViewController(_ uiViewController: InitialProblemDescriptionViewController, context: Context) {
+        // Handle any updates if needed
+    }
+}
+

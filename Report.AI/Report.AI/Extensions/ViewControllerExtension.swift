@@ -24,7 +24,7 @@ extension UserDefaults {
     
     func getAnalyzedProblemName() -> String {
         
-        return UserDefaults.standard.string(forKey: "problemName")! //could be bettter but
+        return UserDefaults.standard.string(forKey: "problemName") ?? "" //could be bettter but
     }
 }
 

@@ -12,11 +12,13 @@ import PhotosUI
 /// Struct to allow the a user to select multiple images to add
 struct PhotoPicker: UIViewControllerRepresentable {
     @Binding var images: [UIImage]
-
+    @Binding var description: String
+    let updateArray: () -> ()
+    
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration()
         config.filter = .images
-        config.selectionLimit = 0
+        config.selectionLimit = 2
         let picker = PHPickerViewController(configuration: config)
         picker.delegate = context.coordinator
         return picker
@@ -35,21 +37,42 @@ struct PhotoPicker: UIViewControllerRepresentable {
                 self.parent = parent
             }
 
-            func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-                picker.dismiss(animated: true)
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true)
 
-                for result in results {
-                    result.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-                        if let image = image as? UIImage {
-                            DispatchQueue.main.async {
-                                self.parent.images.append(image)
-                            }
+            Task {
+                // Create a task group to handle multiple asynchronous image loads
+                await withTaskGroup(of: UIImage?.self) { group in
+                    for result in results {
+                        group.addTask {
+                            return await self.loadImage(from: result)
+                        }
+                    }
+                    
+                    // Collect all images after all tasks in the group finish
+                    for await image in group {
+                        if let image = image {
+                            self.parent.images.append(image)
                         }
                     }
                 }
                 
-                
+                // Now the task will run after all images are loaded
+              
+            
+                self.parent.description = await GeminiManager.shared.updateProblemDescriptionWithImages(input: self.parent.images).replacingOccurrences(of: "\'", with: "\'") //get rid of slashes
+              
             }
+        }
+
+        func loadImage(from result: PHPickerResult) async -> UIImage? {
+            return await withCheckedContinuation { continuation in
+                result.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                    continuation.resume(returning: image as? UIImage)
+                }
+            }
+        }
+
         }
 }
 
