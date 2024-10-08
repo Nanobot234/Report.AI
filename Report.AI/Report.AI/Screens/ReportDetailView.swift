@@ -16,7 +16,9 @@ import SwiftUI
 
 import SwiftUI
 
+
 struct ReportDetailView: View {
+
     
     @State private var images: [UIImage] = []
     @State private var selectedDate = Date()
@@ -26,14 +28,16 @@ struct ReportDetailView: View {
     @State private var isPhotoLibraryOpen = false
     @State private var isCameraOpen = false
     @State private var showAlert = false
+
     @State private var solutionText = ""
     @State private var newReport = Report()
+
     var initialImage: UIImage
     var problemDescription: String
     var problemName: String
     
     var body: some View {
-       
+
             VStack {
                 // Horizontal Scrollable List of Images
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -54,6 +58,7 @@ struct ReportDetailView: View {
                 }
                 .frame(height: 200)
                 .border(Color.gray, width: 1)
+
                 
                 // Button to Add Image
                 HStack {
@@ -85,6 +90,7 @@ struct ReportDetailView: View {
                     Section(header: Text("Select Date and Time")) {
                         DatePicker("", selection: $selectedDate, displayedComponents: [.date, .hourAndMinute])
                     }
+
                     
                     Section(header: Text("Address")) {
                         TextField("Enter Address", text: $address)
@@ -102,11 +108,13 @@ struct ReportDetailView: View {
                 }
                 
                 //change button to nav link
+
                 
                 NavigationLink(destination: GeneratedSolutionView(solutionText: solutionText, problemName: problemName, currentReport: newReport)) {
                      Text("Continue")
                 }
                 
+
             }
             .alert(isPresented: $showAlert) {
                 Alert(
@@ -121,7 +129,7 @@ struct ReportDetailView: View {
                 )
             }
             .navigationTitle("\(problemName) Report Details")
-        
+
         .padding()
         .onAppear {
         
@@ -134,6 +142,7 @@ struct ReportDetailView: View {
             
             createReport()
             
+
         }
     }
     
@@ -166,10 +175,13 @@ struct ReportDetailView: View {
          newReport = Report(name: problemName, images: imgDataArray, description: problemDescription)
         
         print("Report Description now: \(newReport.problemDescription)")
+
     }
 }
 
 
 #Preview {
+
     ReportDetailView(initialImage: UIImage(), problemDescription: "Problem Here",problemName: "name")
+
 }

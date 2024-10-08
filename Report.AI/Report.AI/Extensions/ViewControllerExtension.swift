@@ -24,6 +24,7 @@ extension UserDefaults {
     
     func getAnalyzedProblemName() -> String {
         
+
         return UserDefaults.standard.string(forKey: "problemName") ?? ""//could be bettter but
     }
     
@@ -41,6 +42,7 @@ extension UserDefaults {
         if let user = UserDefaults.standard.string(forKey: "currentUser") {
             //TODO: Edit details here
         }
+
     }
 }
 
