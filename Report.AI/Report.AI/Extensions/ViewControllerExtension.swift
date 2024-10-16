@@ -46,3 +46,10 @@ extension UserDefaults {
     }
 }
 
+class SceneManager {
+    static let shared = SceneManager()
+    
+    var windowScene: UIWindowScene? {
+        UIApplication.shared.connectedScenes.first as? UIWindowScene
+    }
+}

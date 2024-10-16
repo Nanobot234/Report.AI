@@ -63,6 +63,8 @@ struct WelcomeViewAddDetails: View {
                     hasCompletedWelcome = true
                     // Navigate to InitialProblemDescriptionViewController
                     navigateToInitialProblemDescription()
+                    
+                    //or can append to the routeNavStack
                 }) {
                     HStack {
                         Text("Get Started")
@@ -93,12 +95,17 @@ struct WelcomeViewAddDetails: View {
     
     // Navigate to InitialProblemDescriptionViewController
     private func navigateToInitialProblemDescription() {
-        if let window = UIApplication.shared.windows.first {
+        
+        if let window = SceneManager.shared.windowScene?.windows.first {
+        //here nmore!
+            //window.rootViewController =
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let initialVC = storyboard.instantiateViewController(withIdentifier: "InitialProblemDescriptionViewController")
             window.rootViewController = initialVC
             window.makeKeyAndVisible()
+            
         }
+        
     }
 }
 

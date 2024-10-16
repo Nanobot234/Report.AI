@@ -2,14 +2,40 @@ import SwiftUI
 
 
 struct OnboardingFlow: View {
+    
+    @StateObject var reportList = Reports()
+    @StateObject var navRouter = Router() //the router
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("hasCompletedWelcome") private var hasCompletedWelcome: Bool = false
+    @State  var fullyCompleted: Bool = false
     
     var body: some View {
-        if !hasCompletedOnboarding {
-            OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
-        } else if !hasCompletedWelcome {
-            WelcomeViewAddDetails(hasCompletedWelcome: $hasCompletedWelcome)
+        
+        NavigationStack(path: $navRouter.loginNavPath) {
+            VStack {
+                if !hasCompletedOnboarding {
+                    OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+                } else if hasCompletedOnboarding && !hasCompletedWelcome {
+                    //show the view controller here, will need to make it conform to the swiftUiProtocol, i belive, etcc!
+                    WelcomeViewAddDetails(hasCompletedWelcome: $hasCompletedWelcome)
+                }
+            }
+            .navigationDestination(isPresented: $fullyCompleted) {
+                InitialProblemDescriptionViewControllerRepresentable()
+                    .navigationBarBackButtonHidden()
+            }
+            
+            
+            //else if hasCompletedWelcome && hasCompletedOnboarding {
+               //something else here future!
+           // }
+                
+        }
+        
+        .onAppear {
+            if hasCompletedWelcome && hasCompletedOnboarding {
+                fullyCompleted = true
+            }
         }
     }
 }
@@ -39,7 +65,8 @@ struct OnboardingView: View {
                 if currentPage < onboardingData.count - 1 {
                     currentPage += 1
                 } else {
-                    hasCompletedOnboarding = true
+                    hasCompletedOnboarding = true //finished onboarding
+                    
                 }
             }) {
                 Text(currentPage < onboardingData.count - 1 ? "Next" : "Get Started")

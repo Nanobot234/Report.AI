@@ -7,7 +7,8 @@
 import UIKit
 import SwiftUI
 
-#warning("Refactor Class")
+
+
 class InitialProblemDescriptionViewController: UIViewController {
     
     // MARK: - Outlets
@@ -32,7 +33,7 @@ class InitialProblemDescriptionViewController: UIViewController {
     var problemName: String = ""
     var problemDescription: String = ""
     
-    @StateObject var reportList = Reports()
+  
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -74,7 +75,7 @@ class InitialProblemDescriptionViewController: UIViewController {
             continueButton.isHidden = true
             newAnalysisInstructionLabel.isHidden = true
             updateImageViewSize()
-            updateUIAfterAnalysis()
+//            updateUIAfterAnalysis()
            addBorderToImageView()
         }
     
@@ -123,9 +124,14 @@ class InitialProblemDescriptionViewController: UIViewController {
     @IBAction func showReportDetailSwiftUIView(_ sender: Any) {
         guard let image = InitialComplaintImageView.image else { return }
 
-        let hostingVC = UIHostingController(rootView: ReportDetailView(initialImage: image, problemDescription: problemDescription, problemName: problemName)
-            .environmentObject(reportList))
-
+        print("Getting here")
+        let hostingVC = UIHostingController(rootView: ReportDetailView(problemName: problemName, initialImage: image, problemDescription: problemDescription))
+           
+      //  hostingVC.modalPresentationStyle = .fullScreen
+        
+       // present(hostingVC, animated: true, completion: nil)
+        
+        
         navigationController?.pushViewController(hostingVC, animated: true)
     }
     
@@ -174,6 +180,7 @@ extension InitialProblemDescriptionViewController: UIImagePickerControllerDelega
         if let selectedImage = editedImage ?? originalImage {
             InitialComplaintImageView.image = selectedImage
             analyzeButton.isEnabled = true
+            
             hideAnalyzeHelpText()
         }
         
@@ -186,7 +193,7 @@ extension InitialProblemDescriptionViewController: UIImagePickerControllerDelega
 }
 
 
-struct InitialProblemDescriptionViewControllerWrapper: UIViewControllerRepresentable {
+struct InitialProblemDescriptionViewControllerRepresentable: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> InitialProblemDescriptionViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
