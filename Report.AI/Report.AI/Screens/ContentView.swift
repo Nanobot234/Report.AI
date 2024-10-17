@@ -1,5 +1,7 @@
 import SwiftUI
 
+
+#warning("What is this for")
 struct ContentView: View {
     @Binding var hasCompletedOnboarding: Bool
 

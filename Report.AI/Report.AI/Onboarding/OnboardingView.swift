@@ -18,6 +18,8 @@ struct OnboardingFlow: View {
                 } else if hasCompletedOnboarding && !hasCompletedWelcome {
                     //show the view controller here, will need to make it conform to the swiftUiProtocol, i belive, etcc!
                     WelcomeViewAddDetails(hasCompletedWelcome: $hasCompletedWelcome)
+                        .environmentObject(reportList)
+                    
                 }
             }
             .navigationDestination(isPresented: $fullyCompleted) {

@@ -240,6 +240,12 @@ struct ReportDetailView: View {
         }
     }
     
+    /// function that will preset various dataFeilds. will be used when making a final review of your report, (likley not needed)
+    func addIntialDataForReview() {
+        
+        
+    }
+    
     func convertImagesToData() -> [Data] {
            
         var dataArray: [Data] = []

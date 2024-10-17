@@ -10,8 +10,9 @@ import Foundation
 
 struct GeneratedSolutionView: View {
     
-    
+    @EnvironmentObject var reportList: Reports
     @State var solutionText: String
+    
     var problemName: String
     var currentReport: Report //the report that is currently being made.
     
@@ -35,28 +36,29 @@ struct GeneratedSolutionView: View {
             
             Spacer()
             VStack {
-                confirmationButton(title: "Yes") {
-                    //add the solution to the report here, and then navigae to the last screen.
-                }
-                .padding(.bottom,10)
                 
-                confirmationButton(title: "No") {
-                    
+                
+                NavLink(title: "Yes", destination: ReportSubmittedView()) {
+                  //  self.addSolution() //chnagngin it here
                 }
+                
+                
+                
+                
             }
             .padding(.bottom,30)
         }
-            .onAppear {
-                
-               
+        .onDisappear {
+             //here will add report
+            reportList.addReport(currentReport) //save the report to the global lsit
             }
-        
-        
-        
+    
     }
     
-    
-       
+    mutating func addSolution() {
+        self.currentReport.userSolution = solutionText
+    }
+      
 }
 
 #Preview {

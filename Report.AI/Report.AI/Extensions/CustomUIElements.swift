@@ -8,25 +8,23 @@
 import Foundation
 import SwiftUI
 
-struct confirmationButton: View {
-    var title: String
-    var actionToPerform: () -> Void //performs an action here
+
+struct NavLink<Destination: View>: View {
+    let title: String
+    let destination: Destination
+    let funcToRun: () -> Void
 
     var body: some View {
-        Button {
-            actionToPerform()
-        } label: {
+        NavigationLink(destination: destination) {
             Text(title)
                 .font(.headline)
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: 50)
+                .frame(maxWidth: .infinity, maxHeight: 50)
                 .background(Color.blue)
-                .foregroundColor(Color.white)
+                .foregroundColor(.white)
                 .cornerRadius(20)
-                .padding(.horizontal,40)
-                //.shadow(radius: 5)
-            //more here!!
-        }
-        .buttonStyle(.plain)
-
+                .padding(.horizontal, 40)
+        } .simultaneousGesture(TapGesture().onEnded {
+                funcToRun()
+        })
     }
 }
