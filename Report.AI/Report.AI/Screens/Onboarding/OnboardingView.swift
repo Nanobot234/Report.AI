@@ -1,40 +1,21 @@
 import SwiftUI
 
-
 struct OnboardingFlow: View {
-    
     @StateObject var reportList = Reports()
-    @StateObject var navRouter = Router() //the router
+    @StateObject var navRouter = Router()
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("hasCompletedWelcome") private var hasCompletedWelcome: Bool = false
-    @State  var fullyCompleted: Bool = false
     
     var body: some View {
-        
         NavigationStack(path: $navRouter.loginNavPath) {
-            VStack {
+            Group {
                 if !hasCompletedOnboarding {
                     OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
-                } else if hasCompletedOnboarding && !hasCompletedWelcome {
-                    //show the view controller here, will need to make it conform to the swiftUiProtocol, i belive, etcc!
+                } else if !hasCompletedWelcome {
                     WelcomeViewAddDetails(hasCompletedWelcome: $hasCompletedWelcome)
+                } else {
+                    MainTabView()
                 }
-            }
-            .navigationDestination(isPresented: $fullyCompleted) {
-                InitialProblemDescriptionViewControllerRepresentable()
-                    .navigationBarBackButtonHidden()
-            }
-            
-            
-            //else if hasCompletedWelcome && hasCompletedOnboarding {
-               //something else here future!
-           // }
-                
-        }
-        
-        .onAppear {
-            if hasCompletedWelcome && hasCompletedOnboarding {
-                fullyCompleted = true
             }
         }
     }
@@ -65,8 +46,7 @@ struct OnboardingView: View {
                 if currentPage < onboardingData.count - 1 {
                     currentPage += 1
                 } else {
-                    hasCompletedOnboarding = true //finished onboarding
-                    
+                    hasCompletedOnboarding = true
                 }
             }) {
                 Text(currentPage < onboardingData.count - 1 ? "Next" : "Get Started")
@@ -81,6 +61,7 @@ struct OnboardingView: View {
         }
     }
 }
+
 
 struct OnboardingPage: Identifiable {
     let id = UUID()

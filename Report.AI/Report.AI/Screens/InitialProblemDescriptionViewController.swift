@@ -47,11 +47,14 @@ class InitialProblemDescriptionViewController: UIViewController {
            updateImageViewSize()
            updateButtonLayout()
        }
-    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        addBorderToImageView()
+    }
     private func updateImageViewSize() {
-            let desiredHeight = view.bounds.height * 0.35
+            let desiredHeight = view.bounds.height * 0.45
             InitialComplaintImageView.frame = CGRect(x: 20,
-                                                     y: view.safeAreaInsets.top + 20,
+                                                     y: view.safeAreaInsets.top + 10,
                                                      width: view.bounds.width - 40,
                                                      height: desiredHeight)
         }
@@ -60,9 +63,9 @@ class InitialProblemDescriptionViewController: UIViewController {
     private func setupUI() {
             title = "Report a Problem"
             
-            InitialComplaintImageView.layer.cornerRadius = 14
+            InitialComplaintImageView.layer.cornerRadius = 20
             InitialComplaintImageView.layer.borderColor = UIColor.systemGray.cgColor
-            InitialComplaintImageView.layer.borderWidth = 2
+            InitialComplaintImageView.layer.borderWidth = 1
             InitialComplaintImageView.contentMode = .scaleAspectFill
             InitialComplaintImageView.clipsToBounds = true
             
@@ -75,8 +78,8 @@ class InitialProblemDescriptionViewController: UIViewController {
             continueButton.isHidden = true
             newAnalysisInstructionLabel.isHidden = true
             updateImageViewSize()
-//            updateUIAfterAnalysis()
-           addBorderToImageView()
+           // updateUIAfterAnalysis()
+            addBorderToImageView()
         }
     
     private func updateButtonLayout() {
@@ -121,24 +124,46 @@ class InitialProblemDescriptionViewController: UIViewController {
         }
     }
     
+    
+    
     @IBAction func showReportDetailSwiftUIView(_ sender: Any) {
-        guard let image = InitialComplaintImageView.image else { return }
-
-        print("Getting here")
-        let hostingVC = UIHostingController(rootView: ReportDetailView(problemName: problemName, initialImage: image, problemDescription: problemDescription))
-           
-      //  hostingVC.modalPresentationStyle = .fullScreen
+            guard let image = InitialComplaintImageView.image else { return }
         
-       // present(hostingVC, animated: true, completion: nil)
+            print("Getting here")
         
-        
-        navigationController?.pushViewController(hostingVC, animated: true)
-    }
+            let reportDetailView = ReportDetailView(problemName: problemName, initialImage: image, problemDescription: problemDescription)
+            let hostingController = UIHostingController(rootView: reportDetailView)
+            
+            // Configure the hosting controller to use the navigation bar
+            hostingController.title = "Report Detail"
+            hostingController.navigationItem.largeTitleDisplayMode = .never
+            
+            navigationController?.pushViewController(hostingController, animated: true)
+        }
+    
+    
+//    @IBAction func showReportDetailSwiftUIView(_ sender: Any) {
+//        guard let image = InitialComplaintImageView.image else { return }
+//
+//        print("Getting here")
+//        let hostingVC = UIHostingController(rootView: ReportDetailView(problemName: problemName, initialImage: image, problemDescription: problemDescription))
+//           
+//      //  hostingVC.modalPresentationStyle = .fullScreen
+//        
+//       // present(hostingVC, animated: true, completion: nil)
+//        
+//        
+//        navigationController?.pushViewController(hostingVC, animated: true)
+//    }
     
     // MARK: - Helper Functions
     func addBorderToImageView() {
-        InitialComplaintImageView.layer.borderColor = UIColor.black.cgColor
-        InitialComplaintImageView.layer.borderWidth = 5.0
+        if traitCollection.userInterfaceStyle == .dark {
+            InitialComplaintImageView.layer.borderColor = UIColor.white.cgColor
+        } else {
+            InitialComplaintImageView.layer.borderColor = UIColor.black.cgColor
+        }
+        InitialComplaintImageView.layer.borderWidth = 3.0
     }
     
     func showAnalyzeHelpText() {

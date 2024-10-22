@@ -8,7 +8,6 @@
 import SwiftUI
 import CoreLocation
 
-
 struct ReportDetailView: View {
     @State private var images: [UIImage] = []
     @State private var selectedDate = Date()
@@ -20,14 +19,18 @@ struct ReportDetailView: View {
     @State private var manualAddress = ""
     @State private var isManualDescription = false
     @State private var manualProblemDescription = ""
-    
+    @State private var navigateToSolutionView = false
     @State private var solutionText = ""
     @State private var newReport = Report()
     
     var problemName: String
     let maxImages = 3
-    
+    @EnvironmentObject var reports : Reports
     @StateObject private var locationManager = LocationManager()
+    
+    private var currentLocation: String {
+            isManualLocation ? manualAddress : locationManager.address
+        }
     
     var initialImage: UIImage
     @State var problemDescription: String
@@ -108,41 +111,41 @@ struct ReportDetailView: View {
                                     }
                 
                 // Location
-                VStack(alignment: .leading) {
-                    SectionTitle("Location")
-                    ContentCard {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Picker("Location Input", selection: $isManualLocation) {
-                                Text("Automatic").tag(false)
-                                Text("Manual").tag(true)
-                            }
-                            .pickerStyle(SegmentedPickerStyle())
-                            .padding(.bottom, 8)
-                            
-                            if isManualLocation {
-                                TextField("Enter address manually", text: $manualAddress)
-                                    .cornerRadius(10)
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                            } else {
-                                HStack(spacing: 12) {
-                                    Image(systemName: "mappin.circle.fill")
-                                        .foregroundColor(.accentColor)
-                                        .font(.title2)
-                                    Text(locationManager.address)
-                                        .foregroundColor(.secondary)
-                                }
-                                
-                                Button(action: {
-                                    locationManager.requestLocation()
-                                }) {
-                                    Text("Fetch Current Location")
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 8)
-                                        .background(Color.accentColor)
-                                        .cornerRadius(10)
-                                }
-                                .padding(.top, 8)
+                    VStack(alignment: .leading) {
+                                   SectionTitle("Location")
+                                   ContentCard {
+                                       VStack(alignment: .leading, spacing: 12) {
+                                           Picker("Location Input", selection: $isManualLocation) {
+                                               Text("Automatic").tag(false)
+                                               Text("Manual").tag(true)
+                                           }
+                                           .pickerStyle(SegmentedPickerStyle())
+                                           .padding(.bottom, 8)
+                                           
+                                           if isManualLocation {
+                                               TextField("Enter address manually", text: $manualAddress)
+                                                   .cornerRadius(10)
+                                                   .textFieldStyle(RoundedBorderTextFieldStyle())
+                                           } else {
+                                               HStack(spacing: 12) {
+                                                   Image(systemName: "mappin.circle.fill")
+                                                       .foregroundColor(.accentColor)
+                                                       .font(.title2)
+                                                   Text(locationManager.address.isEmpty ? "No location detected" : locationManager.address)
+                                                       .foregroundColor(.secondary)
+                                               }
+                                               
+                                               Button(action: {
+                                                   locationManager.requestLocation()
+                                               }) {
+                                                   Text("Fetch Current Location")
+                                                       .foregroundColor(.white)
+                                                       .padding(.horizontal, 16)
+                                                       .padding(.vertical, 8)
+                                                       .background(Color.accentColor)
+                                                       .cornerRadius(10)
+                                               }
+                                               .padding(.top, 8)
                             }
                         }
                     }
@@ -170,26 +173,43 @@ struct ReportDetailView: View {
                 
                 // Submit Button
                     
-                    NavigationLink(destination:GeneratedSolutionView(solutionText: solutionText, problemName: problemName, currentReport: newReport)) {
-                        Text("Submit Report")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.accentColor, Color.accentColor.opacity(0.8)]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .shadow(color: Color.accentColor.opacity(0.3), radius: 5, x: 0, y: 3)
-                    }
-                    .padding(.top)
-                    
-            }
-            .padding()
+                    VStack {
+                            Button(action: {
+                                // First create the report
+                                createReport()
+                                // Then add it to reports
+                                reports.addReport(newReport)
+                                // Trigger navigation
+                                navigateToSolutionView = true
+                            }) {
+                                Text("Submit Report")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [Color.accentColor, Color.accentColor.opacity(0.8)]),
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                                    .shadow(color: Color.accentColor.opacity(0.3), radius: 5, x: 0, y: 3)
+                            }
+                            .padding(.top)
+
+                            // NavigationLink bound to the state
+                            NavigationLink(
+                                destination: GeneratedSolutionView(solutionText: solutionText, problemName: problemName, currentReport: newReport),
+                                isActive: $navigateToSolutionView
+                            ) {
+                                EmptyView()
+                            }
+                        }
+                        .padding()
+                                }
+                                .padding()
         }
         .alert("Remove Image?", isPresented: Binding(
                     get: { imageToDeleteIndex != nil },
@@ -252,17 +272,29 @@ struct ReportDetailView: View {
            return dataArray
        }
     
-       func createReport() {
-           
-           //TODO: make the report here
-           
-           let imgDataArray = convertImagesToData()
-           
-            newReport = Report(name: problemName, images: imgDataArray, description: problemDescription)
-           
-           print("Report Description now: \(newReport.problemDescription)")
-
-       }
+    func createReport() {
+            let imgDataArray = convertImagesToData()
+            
+            // Get the current location (either manual or automatic)
+            let reportLocation = currentLocation
+            
+            // Create the report with the location
+            newReport = Report(
+                name: problemName,
+                images: imgDataArray,
+                description: problemDescription,
+                location: reportLocation,
+                userReported: User() //  might want to pass the actual user here
+            )
+            
+        newReport.dateReported = selectedDate
+        print("Created new report with name: \(newReport.problemName)")
+                print("Report Description: \(newReport.problemDescription)")
+                print("Report Location: \(newReport.location ?? "No location")")
+        }
+        
+        // Rest of the existing helper functions remain the same
+    
 }
 
 

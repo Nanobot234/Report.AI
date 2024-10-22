@@ -21,7 +21,14 @@ class Reports: ObservableObject {
         if let data = UserDefaults.standard.data(forKey: saveKey) {
             if let decoded = try? JSONDecoder().decode([Report].self, from: data) {
                 reportList = decoded
-                print("Printing userdefaults:\(UserDefaults.standard.string(forKey: "users_name")!)")
+                //print("Printing userdefaults:\(UserDefaults.standard.string(forKey: "users_name")!)")
+                
+                if let userName = UserDefaults.standard.string(forKey: "users_name") {
+                       print("Printing userdefaults: \(userName)")
+                   } else {
+                       print("No user name found in UserDefaults")
+                   }
+                
                 return
             }
         }
@@ -48,42 +55,67 @@ class Reports: ObservableObject {
 
 struct Report: Identifiable, Codable {
     var id: UUID = UUID()
-    
+    var dateReported: Date?
+//    var dateResolved: Date?
     
     var problemName: String = ""
-    /// List of image data for each image that the user chooes to upload
+    /// List of image data for each image that the user chooses to upload
     var images: [Data] = []
     var problemDescription: String = ""
     var location: String? = nil
-    /// The user thats making the report
+    /// The user that's making the report
     var userSolution: String = ""
-   var userReported: User = User()
+    var userReported: User = User()
+    var status: ReportStatus
+    var category: ReportCategory
     
     init() {
-       
+        // Default initializer
+        self.status = .reported
+        self.category = .other
     }
     
-    init( name: String, images: [Data], description: String, location: String, userReported: User) {
+    init(category: ReportCategory) {
+        self.status = .reported
+        self.category = category
+    }
+    
+    init(name: String, images: [Data], description: String, location: String, userReported: User) {
         self.problemName = name
         self.images = images
         self.problemDescription = description
         self.location = location
         self.userReported = userReported
+        self.status = .reported  // Set default status
+        self.category = .other   // Set default category
     }
     
     init(name: String, images: [Data], description: String) {
         self.problemName = name
         self.images = images
         self.problemDescription = description
+        self.status = .reported  // Set default status
+        self.category = .other   // Set default category
     }
-    
 }
-
-
 
 struct User: Codable {
     var name: String = ""
     var phoneNumber: String?
     var emailAddress: String?
-    //another attribute here, but not sure atm///
+}
+//  Maybe added 
+//struct Comment: Identifiable, Codable {
+//    var id: UUID = UUID()
+//    var user: User
+//    var text: String
+//    var datePosted: Date
+//}
+
+enum ReportStatus: String, Codable {
+    case reported, inProgress, resolved, closed
+}
+
+enum ReportCategory: String, Codable {
+    case infrastructure, environment, safety, other
 }

@@ -9,24 +9,28 @@ import Foundation
 import SwiftUI
 
 struct confirmationButton: View {
-    var title: String
-    var actionToPerform: () -> Void //performs an action here
-
+    let title: String
+    let style: ButtonStyle
+    let action: () -> Void
+    
+    enum ButtonStyle {
+        case primary, secondary
+    }
+    
     var body: some View {
-        Button {
-            actionToPerform()
-        } label: {
+        Button(action: action) {
             Text(title)
                 .font(.headline)
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: 50)
-                .background(Color.blue)
-                .foregroundColor(Color.white)
-                .cornerRadius(20)
-                .padding(.horizontal,40)
-                //.shadow(radius: 5)
-            //more here!!
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(style == .primary ? Color.blue : Color.clear)
+                .foregroundColor(style == .primary ? .white : .blue)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(style == .secondary ? Color.blue : Color.clear, lineWidth: 1)
+                )
         }
-        .buttonStyle(.plain)
-
+        .cornerRadius(10)
+        .buttonStyle(PlainButtonStyle())
     }
 }
