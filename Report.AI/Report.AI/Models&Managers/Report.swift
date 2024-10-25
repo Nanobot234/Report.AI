@@ -46,7 +46,7 @@ class Reports: ObservableObject {
 }
 
 
-struct Report: Identifiable, Codable {
+class Report: Identifiable, Codable {
     var id: UUID = UUID()
     
     
@@ -76,6 +76,8 @@ struct Report: Identifiable, Codable {
         self.images = images
         self.problemDescription = description
     }
+    
+  //now uplaod to bucket
     
 }
 

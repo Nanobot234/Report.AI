@@ -12,7 +12,6 @@ struct GeneratedSolutionView: View {
     
     @EnvironmentObject var reportList: Reports
     @State var solutionText: String
-    
     var problemName: String
     var currentReport: Report //the report that is currently being made.
     
@@ -39,7 +38,9 @@ struct GeneratedSolutionView: View {
                 
                 
                 NavLink(title: "Yes", destination: ReportSubmittedView()) {
-                  //  self.addSolution() //chnagngin it here
+                   addSolution() //add the solution before
+                    encodeandUploadtoS3()
+                    
                 }
                 
                 
@@ -48,15 +49,32 @@ struct GeneratedSolutionView: View {
             }
             .padding(.bottom,30)
         }
+        .onAppear {
+            Task {
+                try await AWSServiceManager.shared.setup()
+            }
+        }
         .onDisappear {
              //here will add report
-            reportList.addReport(currentReport) //save the report to the global lsit
+           //save the report to the global lsit
             }
     
     }
     
-    mutating func addSolution() {
-        self.currentReport.userSolution = solutionText
+     func addSolution() {
+        currentReport.userSolution = solutionText
+    }
+    
+    func encodeandUploadtoS3() {
+        Task {
+            let currentUser = User(name:"Nana", phoneNumber: "6467012471",emailAddress: "")
+            currentReport.userReported = currentUser
+            await AWSServiceManager.shared.uploadReport(report: currentReport, key: currentReport.id.uuidString) {result in
+                reportList.addReport(currentReport)
+                print("Report uploaded")
+            }
+        }
+        //
     }
       
 }

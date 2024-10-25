@@ -24,6 +24,7 @@ struct OnboardingFlow: View {
             }
             .navigationDestination(isPresented: $fullyCompleted) {
                 InitialProblemDescriptionViewControllerRepresentable()
+                    .environmentObject(reportList)
                     .navigationBarBackButtonHidden()
             }
             

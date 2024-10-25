@@ -24,6 +24,8 @@ struct ReportDetailView: View {
     @State private var solutionText = ""
     @State private var newReport = Report()
     
+    @State private var showProgressIndicaotrForTextUpdate = false
+    
     var problemName: String
     let maxImages = 3
     
@@ -34,163 +36,168 @@ struct ReportDetailView: View {
     @State private var imageToDeleteIndex: Int? = nil
         
         var body: some View {
-            ScrollView {
-                VStack(spacing: 24) {
-                    // Image Gallery Section
-                    VStack(alignment: .leading, spacing: 16) {
-                        SectionTitle("Photos")
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.accentColor, lineWidth: 1)
-                                .background(Color(.systemBackground).cornerRadius(20))
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                LazyHStack(spacing: 12) {
-                                    ForEach(images.indices, id: \.self) { index in
-                                        ImageThumbnail(
-                                            image: images[index],
-                                            canDelete: index > 0,
-                                            onDeleteRequest: {
-                                                imageToDeleteIndex = index
-                                            }
-                                        )
+            
+            ZStack {
+                
+                
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Image Gallery Section
+                        VStack(alignment: .leading, spacing: 16) {
+                            SectionTitle("Photos")
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color.accentColor, lineWidth: 1)
+                                    .background(Color(.systemBackground).cornerRadius(20))
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    LazyHStack(spacing: 12) {
+                                        ForEach(images.indices, id: \.self) { index in
+                                            ImageThumbnail(
+                                                image: images[index],
+                                                canDelete: index > 0,
+                                                onDeleteRequest: {
+                                                    imageToDeleteIndex = index
+                                                }
+                                            )
+                                        }
                                     }
+                                    .padding(.horizontal)
                                 }
-                                .padding(.horizontal)
+                                .frame(height: 260)
                             }
-                            .frame(height: 260)
+                            .padding(.horizontal)
+                            .padding(.top, 8)
+                            
+                            // Add Photo Buttons
+                            HStack(spacing: 12) {
+                                ImageButton(
+                                    icon: "photo.on.rectangle.fill",
+                                    title: "Gallery",
+                                    action: { isPhotoLibraryOpen = true }
+                                )
+                                .disabled(images.count >= maxImages)
+                                ImageButton(
+                                    icon: "camera.fill",
+                                    title: "Camera",
+                                    action: { isCameraOpen = true }
+                                )
+                                .disabled(images.count >= maxImages)
+                            }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
-                        .padding(.top, 8)
-                    
-                    // Add Photo Buttons
-                    HStack(spacing: 12) {
-                        ImageButton(
-                            icon: "photo.on.rectangle.fill",
-                            title: "Gallery",
-                            action: { isPhotoLibraryOpen = true }
-                        )
-                        .disabled(images.count >= maxImages)
-                        ImageButton(
-                            icon: "camera.fill",
-                            title: "Camera",
-                            action: { isCameraOpen = true }
-                        )
-                        .disabled(images.count >= maxImages)
-                    }
-                    .padding(.horizontal)
-                }
-                
-                // Problem Description
-                    VStack(alignment: .leading) {
-                                        SectionTitle("Problem Description")
-                                        Picker("Description Input", selection: $isManualDescription) {
-                                            Text("Automatic").tag(false)
-                                            Text("Manual").tag(true)
-                                        }
-                                        .pickerStyle(SegmentedPickerStyle())
-                                        .padding(.bottom, 8)
-                                        
-                                        if isManualDescription {
-                                            ContentCard {
-                                                TextField("Describe the problem...", text: $manualProblemDescription)
-                                                    .cornerRadius(10)
-                                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                                    .padding()
-                                            }
-                                        } else {
-                                            ContentCard {
-                                                Text(problemDescription)
-                                                    .foregroundColor(.secondary)
-                                                    .fixedSize(horizontal: false, vertical: true)
-                                            }
-                                        }
-                                    }
-                
-                // Location
-                VStack(alignment: .leading) {
-                    SectionTitle("Location")
-                    ContentCard {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Picker("Location Input", selection: $isManualLocation) {
+                        
+                        // Problem Description
+                        VStack(alignment: .leading) {
+                            SectionTitle("Problem Description")
+                            Picker("Description Input", selection: $isManualDescription) {
                                 Text("Automatic").tag(false)
                                 Text("Manual").tag(true)
                             }
                             .pickerStyle(SegmentedPickerStyle())
                             .padding(.bottom, 8)
                             
-                            if isManualLocation {
-                                TextField("Enter address manually", text: $manualAddress)
-                                    .cornerRadius(10)
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                            } else {
-                                HStack(spacing: 12) {
-                                    Image(systemName: "mappin.circle.fill")
-                                        .foregroundColor(.accentColor)
-                                        .font(.title2)
-                                    Text(locationManager.address)
-                                        .foregroundColor(.secondary)
-                                }
-                                
-                                Button(action: {
-                                    locationManager.requestLocation()
-                                }) {
-                                    Text("Fetch Current Location")
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 8)
-                                        .background(Color.accentColor)
+                            if isManualDescription {
+                                ContentCard {
+                                    TextField("Describe the problem...", text: $manualProblemDescription)
                                         .cornerRadius(10)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .padding()
                                 }
-                                .padding(.top, 8)
+                            } else {
+                                ContentCard {
+                                    Text(problemDescription)
+                                        .foregroundColor(.secondary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
                             }
                         }
-                    }
-                }
-                
-                // Date & Time
-                VStack(alignment: .leading) {
-                    SectionTitle("Date & Time")
-                    ContentCard {
-                        VStack(alignment: .leading, spacing: 8) {
-                            DatePicker("", selection: $selectedDate)
-                                .labelsHidden()
-                                .accentColor(.accentColor)
-                            
-                            HStack {
-                                Image(systemName: "calendar.circle.fill")
-                                    .foregroundColor(.accentColor)
-                                    .font(.title2)
-                                Text(selectedDate.formatted(date: .abbreviated, time: .shortened))
-                                    .foregroundColor(.secondary)
+                        
+                        // Location
+                        VStack(alignment: .leading) {
+                            SectionTitle("Location")
+                            ContentCard {
+                                VStack(alignment: .leading, spacing: 12) {
+                                    Picker("Location Input", selection: $isManualLocation) {
+                                        Text("Automatic").tag(false)
+                                        Text("Manual").tag(true)
+                                    }
+                                    .pickerStyle(SegmentedPickerStyle())
+                                    .padding(.bottom, 8)
+                                    
+                                    if isManualLocation {
+                                        TextField("Enter address manually", text: $manualAddress)
+                                            .cornerRadius(10)
+                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    } else {
+                                        HStack(spacing: 12) {
+                                            Image(systemName: "mappin.circle.fill")
+                                                .foregroundColor(.accentColor)
+                                                .font(.title2)
+                                            Text(locationManager.address)
+                                                .foregroundColor(.secondary)
+                                        }
+                                        
+                                        Button(action: {
+                                            locationManager.requestLocation()
+                                        }) {
+                                            Text("Fetch Current Location")
+                                                .foregroundColor(.white)
+                                                .padding(.horizontal, 16)
+                                                .padding(.vertical, 8)
+                                                .background(Color.accentColor)
+                                                .cornerRadius(10)
+                                        }
+                                        .padding(.top, 8)
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                
-                // Submit Button
-                    
-                    NavigationLink(destination:GeneratedSolutionView(solutionText: solutionText, problemName: problemName, currentReport: newReport)) {
-                        Text("Submit Report")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.accentColor, Color.accentColor.opacity(0.8)]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
+                        
+                        // Date & Time
+                        VStack(alignment: .leading) {
+                            SectionTitle("Date & Time")
+                            ContentCard {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    DatePicker("", selection: $selectedDate)
+                                        .labelsHidden()
+                                        .accentColor(.accentColor)
+                                    
+                                    HStack {
+                                        Image(systemName: "calendar.circle.fill")
+                                            .foregroundColor(.accentColor)
+                                            .font(.title2)
+                                        Text(selectedDate.formatted(date: .abbreviated, time: .shortened))
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Submit Button
+                        
+                        NavigationLink(destination:GeneratedSolutionView(solutionText: solutionText, problemName: problemName, currentReport: newReport)) {
+                            Text("Submit Report")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.accentColor, Color.accentColor.opacity(0.8)]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
                                 )
-                            )
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .shadow(color: Color.accentColor.opacity(0.3), radius: 5, x: 0, y: 3)
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                                .shadow(color: Color.accentColor.opacity(0.3), radius: 5, x: 0, y: 3)
+                        }
+                        .padding(.top)
+                        
                     }
-                    .padding(.top)
-                    
+                    .padding()
+                }
             }
-            .padding()
-        }
         .alert("Remove Image?", isPresented: Binding(
                     get: { imageToDeleteIndex != nil },
                     set: { if !$0 { imageToDeleteIndex = nil } }
@@ -262,7 +269,7 @@ struct ReportDetailView: View {
            
            //TODO: make the report here
            
-           let imgDataArray = convertImagesToData()
+           let imgDataArray = convertImagesToData() //data objects
            
             newReport = Report(name: problemName, images: imgDataArray, description: problemDescription)
            
