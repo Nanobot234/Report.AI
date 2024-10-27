@@ -8,29 +8,25 @@
 import Foundation
 import SwiftUI
 
-struct confirmationButton: View {
+
+
+struct NavLink<Destination: View>: View {
     let title: String
-    let style: ButtonStyle
-    let action: () -> Void
-    
-    enum ButtonStyle {
-        case primary, secondary
-    }
-    
+    let destination: Destination
+    let funcToRun: () -> Void
+
     var body: some View {
-        Button(action: action) {
+        NavigationLink(destination: destination) {
             Text(title)
                 .font(.headline)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(style == .primary ? Color.blue : Color.clear)
-                .foregroundColor(style == .primary ? .white : .blue)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(style == .secondary ? Color.blue : Color.clear, lineWidth: 1)
-                )
-        }
-        .cornerRadius(10)
-        .buttonStyle(PlainButtonStyle())
+                .frame(maxWidth: .infinity, maxHeight: 50)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(20)
+                .padding(.horizontal, 40)
+        } .simultaneousGesture(TapGesture().onEnded {
+                funcToRun()
+        })
+
     }
 }

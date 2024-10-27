@@ -1,10 +1,14 @@
+
+
 import SwiftUI
+
 
 struct OnboardingFlow: View {
     @StateObject var reportList = Reports()
     @StateObject var navRouter = Router()
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("hasCompletedWelcome") private var hasCompletedWelcome: Bool = false
+    @State var fullyCompleted: Bool = false
     
     var body: some View {
         NavigationStack(path: $navRouter.loginNavPath) {
@@ -13,13 +17,36 @@ struct OnboardingFlow: View {
                     OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
                 } else if !hasCompletedWelcome {
                     WelcomeViewAddDetails(hasCompletedWelcome: $hasCompletedWelcome)
+                        
                 } else {
                     MainTabView()
                 }
             }
+//                        .environmentObject(reportList)
+//                        .navigationDestination(isPresented: $fullyCompleted) {
+//                            MainTabView()
+//                                .environmentObject(reportList)
+//                                .navigationBarBackButtonHidden()
+//                        }
+                    
+                }
+        .onAppear {
+            if hasCompletedWelcome && hasCompletedOnboarding {
+                fullyCompleted = true
+            }
+
         }
-    }
-}
+            }
+            
+            
+            
+            //else if hasCompletedWelcome && hasCompletedOnboarding {
+               //something else here future!
+           // }
+                
+        }
+        
+ 
 
 struct OnboardingView: View {
     @Binding var hasCompletedOnboarding: Bool

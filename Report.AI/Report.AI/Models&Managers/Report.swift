@@ -53,7 +53,7 @@ class Reports: ObservableObject {
 }
 
 
-struct Report: Identifiable, Codable {
+class Report: Identifiable, Codable {
     var id: UUID = UUID()
     var dateReported: Date?
 //    var dateResolved: Date?
@@ -97,6 +97,7 @@ struct Report: Identifiable, Codable {
         self.status = .reported  // Set default status
         self.category = .other   // Set default category
     }
+
 }
 
 struct User: Codable {
