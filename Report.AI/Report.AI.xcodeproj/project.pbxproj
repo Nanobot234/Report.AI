@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		802658512CC6CDB1007C1FDD /* ReportListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802658502CC6CDB1007C1FDD /* ReportListView.swift */; };
+		802658532CC6CDC3007C1FDD /* ReportDetailListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802658522CC6CDC3007C1FDD /* ReportDetailListView.swift */; };
+		802C815E2CC021610042F693 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C815D2CC021610042F693 /* Report.swift */; };
+		802C81602CC021940042F693 /* WelcomeViewAddDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C815F2CC021940042F693 /* WelcomeViewAddDetails.swift */; };
+		802C81622CC021B20042F693 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C81612CC021B20042F693 /* Router.swift */; };
+		802C81AA2CC02A2E0042F693 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C81A92CC02A2E0042F693 /* MainTabView.swift */; };
+		802C81AD2CC02BE10042F693 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C81AC2CC02BE10042F693 /* ProfileView.swift */; };
 		805D952A2CB440A700F735C2 /* ReportDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95282CB440A700F735C2 /* ReportDetailView.swift */; };
 		805D952B2CB440A700F735C2 /* InitialProblemDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95272CB440A700F735C2 /* InitialProblemDescriptionViewController.swift */; };
 		805D952C2CB440A700F735C2 /* GeneratedSolutionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95262CB440A700F735C2 /* GeneratedSolutionScreen.swift */; };
@@ -14,11 +21,9 @@
 		805D95322CB440B600F735C2 /* CameraSelectionStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D952D2CB440B600F735C2 /* CameraSelectionStructs.swift */; };
 		805D95332CB440B600F735C2 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D952F2CB440B600F735C2 /* ViewControllerExtension.swift */; };
 		805D95372CB440F800F735C2 /* GeminiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95342CB440F800F735C2 /* GeminiManager.swift */; };
-		805D95382CB440F800F735C2 /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95352CB440F800F735C2 /* ReportModel.swift */; };
 		805D953A2CB4412000F735C2 /* APIkeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D95392CB4412000F735C2 /* APIkeys.swift */; };
 		805D953C2CB4413000F735C2 /* ReportDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805D953B2CB4413000F735C2 /* ReportDetailViewController.swift */; };
-		807C1E132CB5796A006C32CC /* ReportDetailViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C1E122CB5796A006C32CC /* ReportDetailViewX.swift */; };
-		80C407C42CB4F9F300E9BCA1 /* WelcomeViewAddDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C407C32CB4F9F300E9BCA1 /* WelcomeViewAddDetails.swift */; };
+		809E97AD2CC0E7C5002FFFC4 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809E97AC2CC0E7C5002FFFC4 /* ActivityIndicator.swift */; };
 		80C407C62CB4FA0F00E9BCA1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C407C52CB4FA0F00E9BCA1 /* ContentView.swift */; };
 		80C407C92CB4FA4200E9BCA1 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C407C82CB4FA4200E9BCA1 /* OnboardingView.swift */; };
 		80C407CC2CB4FA6900E9BCA1 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C407CB2CB4FA6900E9BCA1 /* LocationManager.swift */; };
@@ -52,6 +57,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		802658502CC6CDB1007C1FDD /* ReportListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListView.swift; sourceTree = "<group>"; };
+		802658522CC6CDC3007C1FDD /* ReportDetailListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDetailListView.swift; sourceTree = "<group>"; };
+		802C815D2CC021610042F693 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
+		802C815F2CC021940042F693 /* WelcomeViewAddDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewAddDetails.swift; sourceTree = "<group>"; };
+		802C81612CC021B20042F693 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		802C81A92CC02A2E0042F693 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		802C81AC2CC02BE10042F693 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		805D95262CB440A700F735C2 /* GeneratedSolutionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedSolutionScreen.swift; sourceTree = "<group>"; };
 		805D95272CB440A700F735C2 /* InitialProblemDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialProblemDescriptionViewController.swift; sourceTree = "<group>"; };
 		805D95282CB440A700F735C2 /* ReportDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDetailView.swift; sourceTree = "<group>"; };
@@ -59,11 +71,9 @@
 		805D952E2CB440B600F735C2 /* CustomUIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIElements.swift; sourceTree = "<group>"; };
 		805D952F2CB440B600F735C2 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		805D95342CB440F800F735C2 /* GeminiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiManager.swift; sourceTree = "<group>"; };
-		805D95352CB440F800F735C2 /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
 		805D95392CB4412000F735C2 /* APIkeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIkeys.swift; sourceTree = "<group>"; };
 		805D953B2CB4413000F735C2 /* ReportDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDetailViewController.swift; sourceTree = "<group>"; };
-		807C1E122CB5796A006C32CC /* ReportDetailViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDetailViewX.swift; sourceTree = "<group>"; };
-		80C407C32CB4F9F300E9BCA1 /* WelcomeViewAddDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewAddDetails.swift; sourceTree = "<group>"; };
+		809E97AC2CC0E7C5002FFFC4 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		80C407C52CB4FA0F00E9BCA1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		80C407C82CB4FA4200E9BCA1 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		80C407CB2CB4FA6900E9BCA1 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -108,16 +118,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8026584F2CC6CDA4007C1FDD /* History */ = {
+			isa = PBXGroup;
+			children = (
+				802658502CC6CDB1007C1FDD /* ReportListView.swift */,
+				802658522CC6CDC3007C1FDD /* ReportDetailListView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		802C81AB2CC02BC90042F693 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				802C81AC2CC02BE10042F693 /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		805D95292CB440A700F735C2 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				80C407C72CB4FA2A00E9BCA1 /* Onboarding */,
 				805D95262CB440A700F735C2 /* GeneratedSolutionScreen.swift */,
 				805D95272CB440A700F735C2 /* InitialProblemDescriptionViewController.swift */,
+				802C815F2CC021940042F693 /* WelcomeViewAddDetails.swift */,
+				8026584F2CC6CDA4007C1FDD /* History */,
 				805D95282CB440A700F735C2 /* ReportDetailView.swift */,
-				807C1E122CB5796A006C32CC /* ReportDetailViewX.swift */,
-				80C407C32CB4F9F300E9BCA1 /* WelcomeViewAddDetails.swift */,
 				80C407C52CB4FA0F00E9BCA1 /* ContentView.swift */,
+				802C81A92CC02A2E0042F693 /* MainTabView.swift */,
+				80C407C72CB4FA2A00E9BCA1 /* Onboarding */,
+				802C81AB2CC02BC90042F693 /* Profile */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -128,6 +157,7 @@
 				805D952D2CB440B600F735C2 /* CameraSelectionStructs.swift */,
 				805D952E2CB440B600F735C2 /* CustomUIElements.swift */,
 				805D952F2CB440B600F735C2 /* ViewControllerExtension.swift */,
+				809E97AC2CC0E7C5002FFFC4 /* ActivityIndicator.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -135,8 +165,9 @@
 		805D95362CB440F800F735C2 /* Models&Managers */ = {
 			isa = PBXGroup;
 			children = (
+				802C81612CC021B20042F693 /* Router.swift */,
 				805D95342CB440F800F735C2 /* GeminiManager.swift */,
-				805D95352CB440F800F735C2 /* ReportModel.swift */,
+				802C815D2CC021610042F693 /* Report.swift */,
 			);
 			path = "Models&Managers";
 			sourceTree = "<group>";
@@ -352,21 +383,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				807C1E132CB5796A006C32CC /* ReportDetailViewX.swift in Sources */,
 				805D95312CB440B600F735C2 /* CustomUIElements.swift in Sources */,
+				802658532CC6CDC3007C1FDD /* ReportDetailListView.swift in Sources */,
+				802658512CC6CDB1007C1FDD /* ReportListView.swift in Sources */,
 				805D95322CB440B600F735C2 /* CameraSelectionStructs.swift in Sources */,
 				80C407C62CB4FA0F00E9BCA1 /* ContentView.swift in Sources */,
 				80C407C92CB4FA4200E9BCA1 /* OnboardingView.swift in Sources */,
+				802C815E2CC021610042F693 /* Report.swift in Sources */,
 				80C407CC2CB4FA6900E9BCA1 /* LocationManager.swift in Sources */,
 				805D95372CB440F800F735C2 /* GeminiManager.swift in Sources */,
 				805D953A2CB4412000F735C2 /* APIkeys.swift in Sources */,
-				805D95382CB440F800F735C2 /* ReportModel.swift in Sources */,
 				805D95332CB440B600F735C2 /* ViewControllerExtension.swift in Sources */,
 				805D953C2CB4413000F735C2 /* ReportDetailViewController.swift in Sources */,
+				802C81622CC021B20042F693 /* Router.swift in Sources */,
+				802C81AA2CC02A2E0042F693 /* MainTabView.swift in Sources */,
 				F2D507172C6AA0630058A95E /* AppDelegate.swift in Sources */,
 				F2D507192C6AA0630058A95E /* SceneDelegate.swift in Sources */,
-				80C407C42CB4F9F300E9BCA1 /* WelcomeViewAddDetails.swift in Sources */,
+				802C81602CC021940042F693 /* WelcomeViewAddDetails.swift in Sources */,
 				805D952A2CB440A700F735C2 /* ReportDetailView.swift in Sources */,
+				809E97AD2CC0E7C5002FFFC4 /* ActivityIndicator.swift in Sources */,
+				802C81AD2CC02BE10042F693 /* ProfileView.swift in Sources */,
 				805D952B2CB440A700F735C2 /* InitialProblemDescriptionViewController.swift in Sources */,
 				805D952C2CB440A700F735C2 /* GeneratedSolutionScreen.swift in Sources */,
 			);

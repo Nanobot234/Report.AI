@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 
+
 struct NavLink<Destination: View>: View {
     let title: String
     let destination: Destination
@@ -26,5 +27,6 @@ struct NavLink<Destination: View>: View {
         } .simultaneousGesture(TapGesture().onEnded {
                 funcToRun()
         })
+
     }
 }
