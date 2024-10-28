@@ -10,23 +10,33 @@ import SwiftUI
 
 
 
-struct NavLink<Destination: View>: View {
+struct FuncttionNavLink<Destination: View>: View {
     let title: String
     let destination: Destination
-    let funcToRun: () -> Void
+    let funcToRun: (() -> Void)?
 
     var body: some View {
         NavigationLink(destination: destination) {
             Text(title)
                 .font(.headline)
-                .frame(maxWidth: .infinity, maxHeight: 50)
-                .background(Color.blue)
                 .foregroundColor(.white)
-                .cornerRadius(20)
-                .padding(.horizontal, 40)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.accentColor, Color.accentColor.opacity(0.8)]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .shadow(color: Color.accentColor.opacity(0.3), radius: 5, x: 0, y: 3)
         } .simultaneousGesture(TapGesture().onEnded {
+            if  let funcToRun = funcToRun {
                 funcToRun()
+            }
         })
+        .padding(.top)
 
     }
 }

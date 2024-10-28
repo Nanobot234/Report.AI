@@ -156,115 +156,47 @@ struct ReportDetailView: View {
                                 }
                                 .padding(.top, 8)
                             
-                                //
-                                //                        // Problem Description
-                                //                        VStack(alignment: .leading) {
-                                //                            SectionTitle("Problem Description")
-                                //                            Picker("Description Input", selection: $isManualDescription) {
-                                //                                Text("Automatic").tag(false)
-                                //                                Text("Manual").tag(true)
-                                //                            }
-                                //                            .pickerStyle(SegmentedPickerStyle())
-                                //                            .padding(.bottom, 8)
-                                //
-                                //                            if isManualDescription {
-                                //                                ContentCard {
-                                //                                    TextField("Describe the problem...", text: $manualProblemDescription)
-                                //                                        .cornerRadius(10)
-                                //                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                //                                        .padding()
-                                //                                }
-                                //                            } else {
-                                //                                ContentCard {
-                                //                                    Text(problemDescription)
-                                //                                        .foregroundColor(.secondary)
-                                //                                        .fixedSize(horizontal: false, vertical: true)
-                                //                                }
-                                //>>>>>>> main
-                                //                            }
-                                //                        }
-                                
-                                // Location
-                                //                        VStack(alignment: .leading) {
-                                //                            SectionTitle("Location")
-                                //                            ContentCard {
-                                //                                VStack(alignment: .leading, spacing: 12) {
-                                //                                    Picker("Location Input", selection: $isManualLocation) {
-                                //                                        Text("Automatic").tag(false)
-                                //                                        Text("Manual").tag(true)
-                                //                                    }
-                                //                                    .pickerStyle(SegmentedPickerStyle())
-                                //                                    .padding(.bottom, 8)
-                                //
-                                //                                    if isManualLocation {
-                                //                                        TextField("Enter address manually", text: $manualAddress)
-                                //                                            .cornerRadius(10)
-                                //                                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                                //                                    } else {
-                                //                                        HStack(spacing: 12) {
-                                //                                            Image(systemName: "mappin.circle.fill")
-                                //                                                .foregroundColor(.accentColor)
-                                //                                                .font(.title2)
-                                //                                            Text(locationManager.address)
-                                //                                                .foregroundColor(.secondary)
-                                //                                        }
-                                //
-                                //                                        Button(action: {
-                                //                                            locationManager.requestLocation()
-                                //                                        }) {
-                                //                                            Text("Fetch Current Location")
-                                //                                                .foregroundColor(.white)
-                                //                                                .padding(.horizontal, 16)
-                                //                                                .padding(.vertical, 8)
-                                //                                                .background(Color.accentColor)
-                                //                                                .cornerRadius(10)
-                                //                                        }
-                                //                                        .padding(.top, 8)
-                                //                                    }
-                                //                                }
-                                //                            }
-                                //                        }
-                                //<<<<<<< HEAD
+                       
                             }
                         }
                         
                         // Submit Button
                         
-                        VStack {
-                            Button(action: {
-                                // First create the report
-                                createReport()
-                                // Then add it to reports
-                                reports.addReport(newReport)
-                                // Trigger navigation
-                                navigateToSolutionView = true
-                            }) {
-                                Text("Submit Report")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                                    .background(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [Color.accentColor, Color.accentColor.opacity(0.8)]),
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
-                                    )
-                                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                                    .shadow(color: Color.accentColor.opacity(0.3), radius: 5, x: 0, y: 3)
-                            }
-                            .padding(.top)
-                            
-                            // NavigationLink bound to the state
-//                            NavigationLink(
-//                                destination: GeneratedSolutionView(solutionText: solutionText, problemName: problemName, currentReport: newReport),
-//                                isActive: $navigateToSolutionView
-//                            ) {
-//                                EmptyView()
+//                        VStack {
+//                            Button(action: {
+//                                // First create the report
+//                                createReport()
+//                                // Then add it to reports
+//                                reports.addReport(newReport)
+//                                // Trigger navigation
+//                                navigateToSolutionView = true
+//                            }) {
+//                                Text("Submit Report")
+//                                    .font(.headline)
+//                                    .foregroundColor(.white)
+//                                    .frame(maxWidth: .infinity)
+//                                    .padding()
+//                                    .background(
+//                                        LinearGradient(
+//                                            gradient: Gradient(colors: [Color.accentColor, Color.accentColor.opacity(0.8)]),
+//                                            startPoint: .leading,
+//                                            endPoint: .trailing
+//                                        )
+//                                    )
+//                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+//                                    .shadow(color: Color.accentColor.opacity(0.3), radius: 5, x: 0, y: 3)
 //                            }
-                        }
-                        .padding()
+//                            .padding(.top)
+//                            
+//                            // NavigationLink bound to the state
+////                            NavigationLink(
+////                                destination: GeneratedSolutionView(solutionText: solutionText, problemName: problemName, currentReport: newReport),
+////                                isActive: $navigateToSolutionView
+////                            ) {
+////                                EmptyView()
+////                            }
+//                        }
+                       // .padding()
                     }
                     .padding()
                 }
@@ -272,6 +204,7 @@ struct ReportDetailView: View {
                 
                 // Date & Time
                 VStack(alignment: .leading) {
+                    //Chahnge this here!
                     SectionTitle("Date & Time")
                     ContentCard {
                         VStack(alignment: .leading, spacing: 8) {
@@ -292,23 +225,9 @@ struct ReportDetailView: View {
                 
                 // Submit Button
                 
-                NavigationLink(destination:GeneratedSolutionView(solutionText: solutionText, problemName: problemName, currentReport: newReport)) {
-                    Text("Submit Report")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color.accentColor, Color.accentColor.opacity(0.8)]),
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                        .shadow(color: Color.accentColor.opacity(0.3), radius: 5, x: 0, y: 3)
-                }
-                .padding(.top)
+                
+                FuncttionNavLink(title: "Continue", destination: GeneratedSolutionView(solutionText: solutionText, problemName: problemName, currentReport: newReport)) {  createReport() }
+            
                 
             }
             .padding()
@@ -363,12 +282,7 @@ struct ReportDetailView: View {
             images.append(initialImage)
         }
     }
-    
-    /// function that will preset various dataFeilds. will be used when making a final review of your report, (likley not needed)
-    func addIntialDataForReview() {
-        
-        
-    }
+  
     
     func convertImagesToData() -> [Data] {
         
@@ -403,24 +317,6 @@ struct ReportDetailView: View {
         print("Report Description: \(newReport.problemDescription)")
         print("Report Location: \(newReport.location ?? "No location")")
     }
-    
-    // Rest of the existing helper functions remain the same
-    
-    //
-    //       func createReport() {
-    //
-    //           //TODO: make the report here
-    //
-    //           let imgDataArray = convertImagesToData() //data objects
-    //
-    //            newReport = Report(name: problemName, images: imgDataArray, description: problemDescription)
-    //
-    //           print("Report Description now: \(newReport.problemDescription)")
-    //
-    //       }
-    
-    //}
-    
     
     
     

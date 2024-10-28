@@ -1,0 +1,17 @@
+{
+  "resourceName": "reportai",
+  "policyUUID": "e55538b1",
+  "bucketName": "reportaidata",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "S3Triggerc1ea5b71",
+  "groupAccess": {}
+}

@@ -16,7 +16,7 @@ class GeminiManager {
     let Udefaults = UserDefaults.standard
     private let geminiModel = GenerativeModel(name: "gemini-1.5-flash", apiKey: APIKey.default)
     let basicPrompt = "If there is a problem that needs to be resolved in this image, Please describe the problem or issue in this image and do so in 4 words or less. If not, just state no problem"
-    let complaintPrompt = "Please return a tuple from an analysis of the problem in this image. The first element of the tuple should be the problem stated in 4 words or less. But the second element should be a longer more description of the problem analyzed in the image, but it should be a paragraph or less. keep in mind that the analysis will be submitted as a complaint to authortiies so keep the language direct and informative."
+    let complaintPrompt = "Analyze the problem in this image and return a tuple. The first element should state the problem in 4 words or less. The second element should be a brief, direct paragraph describing the issue, phrased as a complaint for authorities. Use clear, natural language,  and dont start with repetitive phrases"
     let additionalImagesPrompt = "The problem as determined from the first image is \(UserDefaults.standard.getAnalyzedProblemName()) use the additonal images provided to provide a new more accurate description of the problem. Make sure to combine details from both the original problem and new insights you gain from the new images to make a complete, detailed but concise problem description"
     let solutionPrompt = "Come up with a realistic solution in a maximum of 3 steps in a numbered list that would address the following problem. Also craft the solutions as if your telling a person what needs to be done and not a general statement\n\n"
     
@@ -88,7 +88,7 @@ class GeminiManager {
         
     //fix this here
     func createTupleFromResponseString(with input: String) -> (String, String) {
-        let cleanedString = input.trimmingCharacters(in: CharacterSet(charactersIn: "()"))
+        let cleanedString = input.trimmingCharacters(in: CharacterSet(charactersIn: "()\'"))
         let components = cleanedString.split(separator: ",",maxSplits: 1, omittingEmptySubsequences: true)
 
         // Ensure the components are properly extracted and trimmed
