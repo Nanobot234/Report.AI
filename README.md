@@ -1,5 +1,19 @@
-# Report.AI (GET CHATGPT opinion on this readme
-An IOS application that allows users to easily make report about issues in their communities, powered by Google Gemini
+# Report.AI
+An IOS application that allows users to easily make reports about issues in their communities, powered by Google Gemini
+
+[Click here to view a demo of this application](https://drive.google.com/file/d/1nU6rhfxY4cDx3AF6sCeHr5_-HSNznRcn/view?usp=sharing)
+
+## Steps to Run This Project
+1.Clone or download the project from the repository.
+
+2.Open the Flavorly.xcodeproj file in Xcode. Ensure you are using Xcode 14 or later versions.
+
+3.Select the "Flavorly" scheme. It likely will be preselected.
+
+4.This project includes AWS Amplify and you, likely will need to include it to run this project. [Read the Amplify setup docs for more information](https://docs.amplify.aws/gen1/swift/start/getting-started/)
+
+5.Click the "Run" button (or press Cmd + R).
+
 
 ## Architecture.
 
@@ -8,7 +22,7 @@ The app implements the MV  VM architecture
 The following is a list of files containing various parts of thea architecture?
 
 **Models**
-- User.swift: Defines a User object which includes basic information about a person submitting a report
+- **User.swift: Defines a User object which includes basic information about a person submitting a report
 - Report.swift: Defines the reports class detailing the parts of a report submitted by a user
 
 **Views**
