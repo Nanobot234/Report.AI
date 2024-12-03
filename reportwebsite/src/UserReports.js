@@ -8,13 +8,16 @@ const UserReports = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch('https://your-api-gateway-url/metadata');
+        const response = await fetch('https://k2eyiucsc0.execute-api.us-east-2.amazonaws.com/TestIntial');
         const data = await response.json();
         setImages(data); // Save fetched data to the state
         setLoading(false); // Set loading to false once data is fetched
+        console.log("Fetched data", data)
       } catch (error) {
         console.error("Error fetching images:", error);
         setLoading(false); // Set loading to false even if there is an error
+
+        
       }
     };
 

@@ -4,8 +4,9 @@ struct GeneratedSolutionView: View {
     // MARK: - Properties
     @State private var solutionText: String
     @State private var isEditing: Bool = false
+    @State private var isIncludingSolution: Bool = false
     private let problemName: String
-    private let currentReport: Report
+    var currentReport: Report
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var reportList: Reports
@@ -34,9 +35,7 @@ struct GeneratedSolutionView: View {
                 }
             }
             .onAppear {
-                Task {
-                 //   try await AWSServiceManager.shared.setup()
-                }
+               
             }
             .onDisappear {
                 // Save the report to the global list
@@ -121,11 +120,17 @@ struct GeneratedSolutionView: View {
                 .font(.headline)
                 .foregroundColor(.primary)
             HStack(spacing: 16) {
-                ActionButton(title: "Yes, Include", icon: "checkmark.circle.fill", color: .green) {
-                    addSolution()
-                //    encodeandUploadtoS3()
-                }
-                ActionButton(title: "No, Discard", icon: "xmark.circle.fill", color: .red, action: discardAction)
+                
+                FuncttionNavLink(title: "Yes, Include", destination: ReportSubmittedView(completedReport: currentReport).navigationBarBackButtonHidden(), funcToRun: addToLocalAndS3Storage)
+//                ActionButton(title: "Yes, Include", icon: "checkmark.circle.fill", color: .green) {
+//                    addSolution()
+//                        addToLocalAndS3Storage()
+//                        
+//                }
+                
+                FuncttionNavLink(title: "No, Discard", destination: ReportSubmittedView(completedReport: currentReport).navigationBarBackButtonHidden(), funcToRun: addToLocalAndS3Storage)
+                
+                
             }
         }
         .padding(24)
@@ -139,6 +144,30 @@ struct GeneratedSolutionView: View {
     // MARK: - Actions
     private func addSolution() {
         currentReport.userSolution = solutionText
+    }
+    
+    private func addToLocalAndS3Storage() {
+        
+        if isIncludingSolution {
+            addSolution()
+        }
+        
+        Task {
+            let currentUser = User(name: "Nana", phoneNumber: "6467012471", emailAddress: "")
+            //            currentReport.userReported = currentUser
+            let path = "public/\(currentReport.id)"
+            await AWSServiceManager.shared.uploadReport(report: currentReport, path: path) { result in
+                switch result {
+                case .success(let val):
+                    print("Success", val)
+                    DispatchQueue.main.async {
+                        reportList.addReport(currentReport) //add it to reportList, local storage
+                    }
+                case .failure(let err):
+                    print("Error", err.localizedDescription)
+                }
+            }
+        }
     }
     
 //    private func encodeandUploadtoS3() {
@@ -169,7 +198,8 @@ struct EditButton: View {
 
 struct EditingBadge: View {
     var body: some View {
-        Text("Editing").font(.caption).fontWeight(.medium).padding(10).background(Color.blue.opacity(0.15)).foregroundColor(.blue).clipShape(Capsule())
+        Text("Editing").font(.caption).fontWeight(.medium).padding(10).background(
+            Color.blue.opacity(0.15)).foregroundColor(.blue).clipShape(Capsule())
     }
 }
 

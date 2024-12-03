@@ -13,48 +13,10 @@ import UIKit
 //Struct describing what a complaint really means...
 
 
-class Reports: ObservableObject {
-    @Published private(set) var reportList: [Report]
-    
-    let saveKey = "reportsData"
-    init() {
-        if let data = UserDefaults.standard.data(forKey: saveKey) {
-            if let decoded = try? JSONDecoder().decode([Report].self, from: data) {
-                reportList = decoded
-                //print("Printing userdefaults:\(UserDefaults.standard.string(forKey: "users_name")!)")
-                
-                if let userName = UserDefaults.standard.string(forKey: "users_name") {
-                       print("Printing userdefaults: \(userName)")
-                   } else {
-                       print("No user name found in UserDefaults")
-                   }
-                
-                return
-            }
-        }
-            reportList = []
-    }
-    
-    func saveData() {
-        if let encoded = try? JSONEncoder().encode(reportList) {
-            UserDefaults.standard.set(encoded, forKey: saveKey)
-        }
-    }
-    
-    ///  adds a new report to the array of `Report`
-    /// - Parameter report: the object to add
-    func addReport(_ report: Report) {
-        reportList.append(report)
-        
-        saveData()
-    }
-    
-    
-}
 
-
+#warning("Ask GPT about how to refactor this class.")
 class Report: Identifiable, Codable {
-    var id: UUID = UUID()
+    var id: String = String(UUID().uuidString.prefix(6))
     var dateReported: Date?
 //    var dateResolved: Date?
     
@@ -68,6 +30,7 @@ class Report: Identifiable, Codable {
     var userReported: User = User()
     var status: ReportStatus
     var category: ReportCategory
+    var reportDestinationEntity: String = "" //the person or organization that the user wants to submit a report to
     
     init() {
         // Default initializer
@@ -80,7 +43,7 @@ class Report: Identifiable, Codable {
         self.category = category
     }
     
-    init(name: String, images: [Data], description: String, location: String, userReported: User) {
+    init(name: String, images: [Data], description: String, location: String, userReported: User, reportDestination: String) {
         self.problemName = name
         self.images = images
         self.problemDescription = description
@@ -88,6 +51,7 @@ class Report: Identifiable, Codable {
         self.userReported = userReported
         self.status = .reported  // Set default status
         self.category = .other   // Set default category
+        self.reportDestinationEntity = reportDestination
     }
     
     init(name: String, images: [Data], description: String) {
@@ -113,10 +77,4 @@ struct User: Codable {
 //    var datePosted: Date
 //}
 
-enum ReportStatus: String, Codable {
-    case reported, inProgress, resolved, closed
-}
 
-enum ReportCategory: String, Codable {
-    case infrastructure, environment, safety, other
-}

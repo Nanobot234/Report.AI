@@ -3,7 +3,9 @@
 //  Report.AI
 //
 //  Created by Nana Bonsu on 9/10/24.
-//
+
+
+
 
 import Foundation
 import UIKit
@@ -45,6 +47,30 @@ extension UserDefaults {
 
     }
 }
+
+
+extension UIImage {
+    func resized(to targetSize: CGSize) -> UIImage? {
+        let size = self.size
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+
+        // Determine the scale factor to fit the image into the target size
+        let scaleFactor = min(widthRatio, heightRatio)
+
+        // Calculate the new size
+        let newSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
+
+        // Resize the image
+        UIGraphicsBeginImageContextWithOptions(newSize, false, self.scale)
+        self.draw(in: CGRect(origin: .zero, size: newSize))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return resizedImage
+    }
+}
+
 
 class SceneManager {
     static let shared = SceneManager()

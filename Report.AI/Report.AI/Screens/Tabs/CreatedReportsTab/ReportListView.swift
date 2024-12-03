@@ -26,7 +26,7 @@ struct ReportListView: View {
             }
         }
         .listStyle(PlainListStyle())
-        .navigationBarTitle("Past Reports", displayMode: .large)
+        .navigationBarTitle("Reports", displayMode: .large)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
@@ -163,14 +163,14 @@ struct ReportListView_Previews: PreviewProvider {
             images: [],
             description: "Significant water leak in the main pipeline that needs immediate attention. The water is causing damage to the surrounding area.",
             location: "123 Main Street",
-            userReported: User(name: "John Doe")
+            userReported: User(name: "John Doe"), reportDestination: "management"
         )
         let report2 = Report(
             name: "Broken Streetlight",
             images: [],
             description: "Street light has been flickering for the past week and now completely stopped working.",
             location: "456 Oak Avenue",
-            userReported: User(name: "Jane Smith")
+            userReported: User(name: "Jane Smith"), reportDestination: "Bar"
         )
         reports.addReport(report1)
         reports.addReport(report2)

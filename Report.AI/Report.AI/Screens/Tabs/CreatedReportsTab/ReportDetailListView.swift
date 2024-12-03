@@ -17,8 +17,8 @@ struct ReportListDetailView: View {
         case .inProgress: return .blue
         case .resolved: return .green
         case .closed: return .gray
-        }
     }
+}
     
     var body: some View {
         ScrollView {
@@ -48,6 +48,9 @@ struct ReportListDetailView: View {
                             .foregroundColor(statusColor)
                             .clipShape(Capsule())
                     }
+                    
+                    //The person your reporting too
+                    Text("Reporting to: \(report.reportDestinationEntity)").bold()
                 }
                 .padding()
                 .background(Color(UIColor.secondarySystemBackground))
@@ -135,7 +138,6 @@ struct CardView<Content: View>: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
                 .font(.headline)
-            
             content
         }
         .padding()
@@ -152,11 +154,13 @@ struct ReportListDetailView_Previews: PreviewProvider {
         NavigationView {
             ReportListDetailView(report: Report(
                 name: "Water Leak",
-                images: [],
+                images: [],   
                 description: "There is a significant water leak in the main pipeline.",
                 location: "123 Main Street",
-                userReported: User(name: "John Doe")
+                userReported: User(name: "John Doe"), reportDestination: "Manager"
             ))
+            
+            
         }
     }
 }

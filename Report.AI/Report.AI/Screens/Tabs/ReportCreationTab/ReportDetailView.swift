@@ -18,16 +18,19 @@ struct ReportDetailView: View {
     @State private var isManualLocation = false
     @State private var manualAddress = ""
     @State private var isManualDescription = false
+    
+    
     @State private var manualProblemDescription = ""
     @State private var navigateToSolutionView = false
     @State private var solutionText = ""
     @State private var newReport = Report()
     
-    @State private var showProgressIndicaotrForTextUpdate = false
+    @State private var showProgressIndicatorForTextUpdate = false
     
     var problemName: String
+    var reportingTo: String
     let maxImages = 3
-    @EnvironmentObject var reports : Reports
+    @EnvironmentObject var reports: Reports
     @StateObject private var locationManager = LocationManager()
     
     private var currentLocation: String {
@@ -35,17 +38,23 @@ struct ReportDetailView: View {
     }
     
     var initialImage: UIImage
-    @State var problemDescription: String
+    @State var problemDescription: String //the problem being analyzed
+    
     @State private var imageToDeleteIndex: Int? = nil
     
     var body: some View {
         
         ZStack {
-            
-            
+            if showProgressIndicatorForTextUpdate {
+                ActivityIndicator(text: "Updating Problem Description")
+                    .zIndex(1)
+            }
             ScrollView {
                 VStack(spacing: 24) {
                     // Image Gallery Section
+                    
+                    Text("Reporting to: \(reportingTo)")
+                        .fontWeight(.bold)
                     VStack(alignment: .leading, spacing: 16) {
                         SectionTitle("Photos")
                         ZStack {
@@ -73,23 +82,30 @@ struct ReportDetailView: View {
                         .padding(.top, 8)
                         
                         // Add Photo Buttons
-                        HStack(spacing: 12) {
-                            ImageButton(
-                                icon: "photo.on.rectangle.fill",
-                                title: "Gallery",
-                                action: { isPhotoLibraryOpen = true }
-                            )
-                            .disabled(images.count >= maxImages)
-                            ImageButton(
-                                icon: "camera.fill",
-                                title: "Camera",
-                                action: { isCameraOpen = true }
-                            )
-                            .disabled(images.count >= maxImages)
+                        
+                        HStack {
+                            Text("\(images.count)/\(maxImages)")
                         }
-                        .padding(.horizontal)
+                        VStack {
+                            
+                            Text("Include more images in your report by taking a photo or selecting from your gallery")
+                            HStack(spacing: 12) {
+                                ImageButton(
+                                    icon: "photo.on.rectangle.fill",
+                                    title: "Gallery",
+                                    action: { isPhotoLibraryOpen = true }
+                                )
+                                .disabled(images.count >= maxImages)
+                                ImageButton(
+                                    icon: "camera.fill",
+                                    title: "Camera",
+                                    action: { isCameraOpen = true }
+                                )
+                                .disabled(images.count >= maxImages)
+                            }
+                            .padding(.horizontal)
+                        }
                     }
-                  
                      
                 }
                 
@@ -113,7 +129,7 @@ struct ReportDetailView: View {
                     } else {
                         ContentCard {
                             Text(problemDescription)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.primary)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                     }
@@ -141,7 +157,7 @@ struct ReportDetailView: View {
                                         .foregroundColor(.accentColor)
                                         .font(.title2)
                                     Text(locationManager.address.isEmpty ? "No location detected" : locationManager.address)
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(.primary)
                                 }
                                 
                                 Button(action: {
@@ -159,44 +175,8 @@ struct ReportDetailView: View {
                        
                             }
                         }
+    
                         
-                        // Submit Button
-                        
-//                        VStack {
-//                            Button(action: {
-//                                // First create the report
-//                                createReport()
-//                                // Then add it to reports
-//                                reports.addReport(newReport)
-//                                // Trigger navigation
-//                                navigateToSolutionView = true
-//                            }) {
-//                                Text("Submit Report")
-//                                    .font(.headline)
-//                                    .foregroundColor(.white)
-//                                    .frame(maxWidth: .infinity)
-//                                    .padding()
-//                                    .background(
-//                                        LinearGradient(
-//                                            gradient: Gradient(colors: [Color.accentColor, Color.accentColor.opacity(0.8)]),
-//                                            startPoint: .leading,
-//                                            endPoint: .trailing
-//                                        )
-//                                    )
-//                                    .clipShape(RoundedRectangle(cornerRadius: 15))
-//                                    .shadow(color: Color.accentColor.opacity(0.3), radius: 5, x: 0, y: 3)
-//                            }
-//                            .padding(.top)
-//                            
-//                            // NavigationLink bound to the state
-////                            NavigationLink(
-////                                destination: GeneratedSolutionView(solutionText: solutionText, problemName: problemName, currentReport: newReport),
-////                                isActive: $navigateToSolutionView
-////                            ) {
-////                                EmptyView()
-////                            }
-//                        }
-                       // .padding()
                     }
                     .padding()
                 }
@@ -258,6 +238,7 @@ struct ReportDetailView: View {
             
             addInitialImage()
             locationManager.requestLocation()
+            
             descriptionText = problemDescription
             if(solutionText.isEmpty) {
                 Task {
@@ -270,7 +251,7 @@ struct ReportDetailView: View {
             
         }
         .sheet(isPresented: $isPhotoLibraryOpen) {
-            PhotoPicker(images: $images, description: $descriptionText, updateReport: createReport)
+            PhotoPicker(images: $images, description: $problemDescription, showLoadingIndicator: $showProgressIndicatorForTextUpdate, updateReport: createReport)
         }
         .sheet(isPresented: $isCameraOpen) {
             CameraPicker(images: $images)
@@ -284,13 +265,17 @@ struct ReportDetailView: View {
     }
   
     
+    /// converts `UIImage` to a compressed jpeg data that will be shown
+    /// - Returns: <#description#>
     func convertImagesToData() -> [Data] {
         
         var dataArray: [Data] = []
         for image in images {
-            if let imageData = image.pngData() {
+            if let resizedImage = image.resized(to: CGSize(width: 400, height: 400)),
+                let imageData = image.jpegData(compressionQuality: 0.7) {
                 dataArray.append(imageData)
-            }
+                }
+                
         }
         
         return dataArray
@@ -309,7 +294,7 @@ struct ReportDetailView: View {
             images: imgDataArray,
             description: problemDescription,
             location: reportLocation,
-            userReported: User() //  might want to pass the actual user here
+            userReported: User(), reportDestination: reportingTo //  might want to pass the actual user here
         )
         
         newReport.dateReported = selectedDate
@@ -461,16 +446,7 @@ struct ReportDetailView: View {
     }
     // MARK: - Preview
     
-    struct InitialScreenView_Previews: PreviewProvider {
-        static var previews: some View {
-            NavigationView {
-                ReportDetailView(
-                    problemName: "name", initialImage: UIImage(),
-                    problemDescription: "The image shows a faucet pouring water into a bucket that is already full. The water is overflowing from the bucket and onto the floor. This represents a serious waste of water and a potential hazard."
-                )
-            }
-        }
-    }
+    
     
     
     struct ImageThumbnail_Previews: PreviewProvider {
@@ -485,4 +461,18 @@ struct ReportDetailView: View {
     }
 }
 
-
+struct ReportDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        
+            ReportDetailView(
+                problemName: "Leaking Faucet",
+                reportingTo: "Facilities Manager",
+                initialImage: UIImage(systemName: "photo.fill") ?? UIImage(),
+                problemDescription: "A faucet is leaking continuously, causing water to overflow. This issue requires immediate attention to avoid water wastage."
+            )
+            // environment object if needed
+           // Provide a mock LocationManager environment object if needed
+        
+        .previewDisplayName("Report Detail View")
+    }
+}

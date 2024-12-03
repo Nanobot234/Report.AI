@@ -8,47 +8,36 @@
 import SwiftUI
 
 struct ActivityIndicator: View {
-    @State private var isLoading = false
+   // @State private var isLoading = false
+    @State  var text: String
     
     var body: some View {
-        ZStack {
-            Color.gray.opacity(0.6)
-                .ignoresSafeArea()
-            VStack {
-                Text("Example Screen")
-                    .bold()
-                    .font(.title)
-                    .foregroundColor(.white)
-                    .padding()
-            }
-            .padding(.bottom,190)
-            
-            if isLoading {
+         
                 VStack {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                         .scaleEffect(2)
+                        
                     
-                    Text("Loading...")
+                    Text(text)
                         .foregroundColor(.white)
-                        .padding(.top, 10)
+                        .padding(.top, 20)
                 }
-                .frame(width: 100, height: 100)
+                .frame(width: 200, height: 200)
                 .background(Color.black.opacity(0.7))
                 .cornerRadius(25)
-            }
+            
+        
+        .onAppear {
+          //  startNetworkCall()
+        //    isLoading = True
+            
         }
-        .onAppear { startNetworkCall() }
     }
     
-    func startNetworkCall() {
-        isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            isLoading = false
-        }
-    }
+  
 }
 
 #Preview {
-    ActivityIndicator()
+    ActivityIndicator(text: "Updating Description")
 }

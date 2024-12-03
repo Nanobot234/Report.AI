@@ -10,7 +10,6 @@ import SwiftUI
 struct MainTabView: View {
     @StateObject private var viewModel = WelcomeViewModel()
     @State private var selectedTab = 0
-    @StateObject private var reports = Reports()
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -18,19 +17,16 @@ struct MainTabView: View {
                 NavigationView {
                     InitialProblemDescriptionViewControllerRepresentable()
                         .navigationBarTitle("Report a Problem", displayMode: .inline)
-                }
-                .environmentObject(reports)
+                }   
                 .tag(0)
                 NavigationView {
                     ProfileView()
                 }
-                .environmentObject(reports)
                 .tag(1)
                 
                 NavigationView {
                     ReportListView()
                 }
-                .environmentObject(reports)
                
                 .tag(2)
             }

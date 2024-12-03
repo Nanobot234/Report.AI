@@ -1,27 +1,19 @@
-//
-//  CameraSelectionStructs.swift
-//  Report.AI
-//
-//  Created by Nana Bonsu on 9/26/24.
-//
-
 import Foundation
 import SwiftUI
 import PhotosUI
 
-/// Struct to allow the a user to select multiple images to add
+/// Struct to allow the user to select multiple images to add
 struct PhotoPicker: UIViewControllerRepresentable {
     @Binding var images: [UIImage]
     @Binding var description: String
+    @Binding var showLoadingIndicator: Bool
 
-    //@Binding var report: Report
     let updateReport: () -> ()
 
-    
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration()
         config.filter = .images
-        config.selectionLimit = 2
+        config.selectionLimit = 2 // Limit to 2 images
         let picker = PHPickerViewController(configuration: config)
         picker.delegate = context.coordinator
         return picker
@@ -34,15 +26,19 @@ struct PhotoPicker: UIViewControllerRepresentable {
     }
 
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
-            let parent: PhotoPicker
+        let parent: PhotoPicker
 
-            init(_ parent: PhotoPicker) {
-                self.parent = parent
-            }
+        init(_ parent: PhotoPicker) {
+            self.parent = parent
+        }
 
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             picker.dismiss(animated: true)
 
+            // Start loading the images
+            self.parent.showLoadingIndicator = true
+
+            // Use Task to handle asynchronous image loading
             Task {
                 // Create a task group to handle multiple asynchronous image loads
                 await withTaskGroup(of: UIImage?.self) { group in
@@ -60,34 +56,34 @@ struct PhotoPicker: UIViewControllerRepresentable {
                     }
                 }
                 
-                // Now the task will run after all images are loaded
-              
-            
-                self.parent.description = await GeminiManager.shared.updateProblemDescriptionWithImages(input: self.parent.images).replacingOccurrences(of: "\'", with: "\'") //get rid of slashes
-              
+                // Once all images are loaded, update the problem description
+                self.parent.description = await GeminiManager.shared.updateProblemDescriptionWithImages(input: self.parent.images)
+                    .replacingOccurrences(of: "\'", with: "\'") // Handle single quote issues
 
-              
-                self.parent.updateReport() //updates the report with this new description
+                // Update the report
+                self.parent.updateReport()
 
+                // Hide the loading indicator after the update is complete
+                self.parent.showLoadingIndicator = false
             }
         }
 
         func loadImage(from result: PHPickerResult) async -> UIImage? {
             return await withCheckedContinuation { continuation in
                 result.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                    if let error = error {
+                        print("Error loading image: \(error.localizedDescription)")
+                    }
                     continuation.resume(returning: image as? UIImage)
                 }
             }
         }
-
-        }
+    }
 }
-
 
 /// Enables users to take photos and add them to an array of photos
 struct CameraPicker: UIViewControllerRepresentable {
-    @Binding var images: [UIImage] //the image list that your adding to
-   
+    @Binding var images: [UIImage] // The image list to which you will add the captured image
 
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
@@ -103,23 +99,22 @@ struct CameraPicker: UIViewControllerRepresentable {
     }
 
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-          let parent: CameraPicker
+        let parent: CameraPicker
 
-          init(parent: CameraPicker) {
-              self.parent = parent
-          }
+        init(parent: CameraPicker) {
+            self.parent = parent
+        }
 
-          func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-              if let image = info[.originalImage] as? UIImage {
-                  parent.images.append(image)
-              }
-              
-              
-              picker.dismiss(animated: true) // Close camera after capturing an image
-          }
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                parent.images.append(image)
+            }
+            picker.dismiss(animated: true) // Close the camera after capturing an image
+        }
 
-          func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-              picker.dismiss(animated: true)
-          }
-      }
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true)
+        }
+    }
 }
+

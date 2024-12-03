@@ -202,30 +202,30 @@ struct SinglePhotoPicker: UIViewControllerRepresentable {
         picker.delegate = context.coordinator
         return picker
     }
-
+    
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-
+    
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let parent: SinglePhotoPicker
-
+        
         init(_ parent: SinglePhotoPicker) {
             self.parent = parent
         }
-
+        
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             picker.dismiss(animated: true)
-
+            
             Task {
                 if let result = results.first {
                     self.parent.image = await self.loadImage(from: result)
                 }
             }
         }
-
+        
         func loadImage(from result: PHPickerResult) async -> UIImage? {
             return await withCheckedContinuation { continuation in
                 result.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
